@@ -4,6 +4,7 @@
 SoftwareSerial BM(10, 11);
 int led = 13; // led on D13 will show blink on / off
 int bData; // the data given from Computer
+char phone_no[];
 
 void setup() {
   BM.begin(9600);
@@ -17,7 +18,7 @@ void setup() {
   Serial.println("AT+CMGF=1");
   delay(2000);
   Serial.print("AT+CMGS=\"");
-  Serial.print("17818660040");
+  Serial.print(phone_no);
   Serial.write(0x22);
   Serial.write(0x0D);
   Serial.write(0x0A);
