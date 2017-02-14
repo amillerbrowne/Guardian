@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Establishing Bluetooth Connection</string>
+    <string name="edit_message">Enter a username</string>
+    <string name="edit_message2">Enter a password</string>
+    <string name="button_send">Send</string>
+</resources>
