@@ -4,7 +4,7 @@
 #define BT_TX_PIN 11
 #define BT_RX_PIN 12
 byte input = 0;
-char phone_no[] = "16179357165";
+char phone_no[];
 
 SoftwareSerial bluetoothModule = SoftwareSerial(BT_RX_PIN, BT_TX_PIN);
 
