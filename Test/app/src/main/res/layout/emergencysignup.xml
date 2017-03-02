@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="62dp"
+        android:text="@string/button_submit"
+        android:onClick="esignup"
+        android:id="@+id/emergencysubmit"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="28dp" />
+
+    <EditText android:id="@+id/efirst"
+        android:layout_weight="1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/first"
+        android:inputType="text"
+        android:selectAllOnFocus="true"
+        style="@android:style/Widget.DeviceDefault.Light.AutoCompleteTextView"
+        android:layout_alignLeft="@+id/elast"
+        android:layout_alignStart="@+id/elast"
+        android:layout_marginTop="55dp" />
+
+    <EditText android:id="@+id/relation"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:hint="@string/relation"
+        android:inputType="text"
+        android:selectAllOnFocus="true"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_below="@+id/elast"
+        android:layout_centerHorizontal="true" />
+
+    <EditText android:id="@+id/elast"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:hint="@string/last"
+        android:inputType="text"
+        android:selectAllOnFocus="true"
+        android:layout_width="wrap_content"
+        android:layout_alignTop="@+id/efirst"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="68dp" />
+
+    <EditText android:id="@+id/primary"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:hint="@string/primary"
+        android:inputType="text"
+        android:selectAllOnFocus="true"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_below="@+id/relation"
+        android:layout_centerHorizontal="true" />
+
+    <EditText android:id="@+id/secondary"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:hint="@string/secondary"
+        android:inputType="text"
+        android:selectAllOnFocus="true"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_below="@+id/primary"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>

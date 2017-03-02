@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="62dp"
+        android:text="@string/button_signup"
+        android:onClick="signup"
+        android:id="@+id/signupsubmit"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="28dp" />
+
+    <EditText android:id="@+id/email"
+        android:layout_weight="1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/email"
+        android:inputType="text"
+        android:selectAllOnFocus="true"
+        style="@android:style/Widget.DeviceDefault.Light.AutoCompleteTextView"
+        android:layout_alignLeft="@+id/pass"
+        android:layout_alignStart="@+id/pass"
+        android:layout_marginTop="55dp" />
+
+    <EditText android:id="@+id/confirm"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:hint="@string/confirmpass"
+        android:inputType="textPassword"
+        android:selectAllOnFocus="true"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_below="@+id/pass"
+        android:layout_centerHorizontal="true" />
+
+    <EditText android:id="@+id/pass"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:selectAllOnFocus="true"
+        android:layout_width="wrap_content"
+        android:layout_alignTop="@+id/email"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="68dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="Are you a Runner?"
+        android:ems="10"
+        android:id="@+id/editText"
+        android:layout_below="@+id/confirm"
+        android:layout_alignLeft="@+id/confirm"
+        android:layout_alignStart="@+id/confirm"
+        android:layout_marginTop="41dp" />
+
+    <RadioGroup
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_above="@+id/signupsubmit"
+        android:layout_marginBottom="22dp"
+        android:layout_alignLeft="@+id/pass"
+        android:layout_alignStart="@+id/pass">
+        <RadioButton android:id="@+id/radio_yes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/yes"
+            android:onClick="onRadioButtonClicked"
+            android:layout_below="@+id/editText"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="28dp" />
+
+        <RadioButton android:id="@+id/radio_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/no"
+            android:onClick="onRadioButtonClicked"
+            android:layout_below="@+id/radio_yes"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="11dp" />
+    </RadioGroup>
+
+</RelativeLayout>
