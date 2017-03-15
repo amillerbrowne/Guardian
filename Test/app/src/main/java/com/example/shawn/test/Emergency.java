@@ -1,6 +1,5 @@
 package com.example.shawn.test;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.ViewGroup;
@@ -13,7 +12,6 @@ public class Emergency extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.emergency);
 
-        Intent intent = getIntent();
         String message = "Hello Emergency Contact!";
         TextView textView = new TextView(this);
         textView.setTextSize(40);
@@ -21,5 +19,10 @@ public class Emergency extends AppCompatActivity {
 
         ViewGroup layout = (ViewGroup) findViewById(R.id.emergency);
         layout.addView(textView);
+    }
+
+    @Override
+    public void onBackPressed() {
+        //Ensure that back button cannot be used!
     }
 }

@@ -3,7 +3,6 @@ package com.example.shawn.test;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -13,12 +12,11 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class Login extends AppCompatActivity {
+    private Toast toast = null;
     public final static String EXTRA_MESSAGE = "com.example.shawn.MESSAGE";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -29,10 +27,14 @@ public class Login extends AppCompatActivity {
     public void login(View view) {
         EditText email = (EditText) findViewById(R.id.email);
         EditText password = (EditText) findViewById(R.id.pass);
-        String e = email.getText().toString();
-        String p = password.getText().toString();
+        String e = email.getText() == null ? "" : email.getText().toString();
+        String p = password.getText() == null ? "" : password.getText().toString();
 
-        if(validUser(e, p)==1){
+        if(e.equals("") || p.equals("")){
+            toast = Toast.makeText(getApplicationContext(),"All fields must be filled in!",Toast.LENGTH_LONG);
+            toast.show();
+        }
+        else if(validUser(e, p)==1){
             Intent intent = new Intent(this, Runner.class);
             startActivity(intent);
         }
@@ -41,8 +43,8 @@ public class Login extends AppCompatActivity {
             startActivity(intent);
         }
         else{
-            //pop-up error message
-            //Toast.makeText()
+            toast = Toast.makeText(getApplicationContext(),"Invalid credentials!",Toast.LENGTH_LONG);
+            toast.show();
         }
     }
 
@@ -85,5 +87,19 @@ public class Login extends AppCompatActivity {
             return 1;
         }
         return 2; //Emergency Contact
+    }
+
+    @Override
+    protected void onPause () {
+        super.onPause();
+        //Remove any existing messages before redirecting
+        if(toast!=null) {
+            toast.cancel();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        //Ensure that back button cannot be used!
     }
 }

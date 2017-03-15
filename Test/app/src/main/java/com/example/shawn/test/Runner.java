@@ -20,4 +20,9 @@ public class Runner extends AppCompatActivity {
         ViewGroup layout = (ViewGroup) findViewById(R.id.runner);
         layout.addView(textView);
     }
+
+    @Override
+    public void onBackPressed() {
+        //Ensure that back button cannot be used!
+    }
 }
