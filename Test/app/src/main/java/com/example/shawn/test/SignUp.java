@@ -12,7 +12,7 @@ import android.widget.RadioButton;
 
 public class SignUp extends AppCompatActivity {
     public final static String USER_ID = "com.example.shawn.USERID";
-    private boolean runner;
+    private boolean runner; //radio button check
     private long id;
 
     @Override
@@ -33,6 +33,7 @@ public class SignUp extends AppCompatActivity {
             //Throw pop error message
         }
 
+        //determines what form to go to next
         if(addUser(e, p)){ //TRUE means Runner
             Intent run = new Intent(this, RunnerSignUp.class);
             run.putExtra(USER_ID, this.id);
@@ -46,9 +47,11 @@ public class SignUp extends AppCompatActivity {
     }
 
     public boolean addUser(String email, String pass){
+        //database
         DBSQLiteHelper DBhelper = new DBSQLiteHelper(getApplicationContext());
         SQLiteDatabase db = DBhelper.getWritableDatabase();
 
+        //like a list to put data into entity table
         ContentValues values = new ContentValues();
         values.put(DBContract.Users.COLUMN_EMAIL, email);
         values.put(DBContract.Users.COLUMN_PASS, pass);

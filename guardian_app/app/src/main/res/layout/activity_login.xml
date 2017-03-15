@@ -9,7 +9,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.nikig.guardian_app.LoginActivity"
-    android:background="@mipmap/login">
+    android:background="@mipmap/loginsrc">
 
     <LinearLayout
         android:orientation="vertical"
