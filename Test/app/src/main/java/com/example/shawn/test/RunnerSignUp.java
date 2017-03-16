@@ -40,8 +40,20 @@ public class RunnerSignUp extends AppCompatActivity {
         String w = weight.getText() == null ? "" : weight.getText().toString();
         String v = device.getText() == null ? "" : device.getText().toString();
 
+        //Logic to add device ID to db if need be
+        int dev = doesDeviceExist(v);
+        boolean check = false;
+        if(dev == -1){
+            check = true;
+        }
+
         if(f.equals("") || l.equals("") || d.equals("") || g.equals("") || a.equals("") || h.equals("") || w.equals("") || v.equals("")){
             toast = Toast.makeText(getApplicationContext(),"All fields must be filled in!",Toast.LENGTH_LONG);
+            toast.show();
+        }
+        //Does device already exist to user of same type?
+        else if(dev == 1){
+            toast = Toast.makeText(getApplicationContext(),"An Emergency Contact already owns this device ID!",Toast.LENGTH_LONG);
             toast.show();
         }
         else {
@@ -51,19 +63,20 @@ public class RunnerSignUp extends AppCompatActivity {
                 JSONObject signup = new JSONObject(data);
                 String email = signup.getString("email");
                 String password = signup.getString("password");
-                addRunner(f, l, d, g, a, h, w, email, password, v);
+                long id = addRunner(f, l, d, g, a, h, w, email, password, v, check);
+
+                Intent next = new Intent(this, Runner.class);
+                next.putExtra("ID",id);
+                startActivity(next);
             }
-            catch(JSONException error){
-                toast = Toast.makeText(getApplicationContext(),"An internal system error occurred. Please close the app and restart.",Toast.LENGTH_LONG);
+            catch(JSONException error) {
+                toast = Toast.makeText(getApplicationContext(), "An internal system error occurred. Please close the app and restart.", Toast.LENGTH_LONG);
                 toast.show();
             }
-
-            Intent next = new Intent(this, Runner.class);
-            startActivity(next);
         }
     }
 
-    public void addRunner(String first, String last, String dob, String gender, String age, String height, String weight, String email, String pass, String device){
+    public long addRunner(String first, String last, String dob, String gender, String age, String height, String weight, String email, String pass, String device, boolean addDevice){
         DBSQLiteHelper DBhelper = new DBSQLiteHelper(getApplicationContext());
         SQLiteDatabase db = DBhelper.getWritableDatabase();
 
@@ -75,33 +88,46 @@ public class RunnerSignUp extends AppCompatActivity {
         //Save id of user to link to runner table
         long id = db.insert(DBContract.Users.TABLE_NAME, null, loginValues);
 
+        //Properly capitalize names
+        String f = first.toLowerCase();
+        f = f.substring(0,1).toUpperCase() + f.substring(1);
+        String l = last.toLowerCase();
+        l = l.substring(0,1).toUpperCase() + l.substring(1);
+
         //Add user data to runner table
         ContentValues values = new ContentValues();
-        values.put(DBContract.Runners.COLUMN_FIRST, first);
-        values.put(DBContract.Runners.COLUMN_LAST, last);
+        values.put(DBContract.Runners.COLUMN_FIRST, f);
+        values.put(DBContract.Runners.COLUMN_LAST, l);
         values.put(DBContract.Runners.COLUMN_DOB, dob);
         values.put(DBContract.Runners.COLUMN_GENDER, gender);
         values.put(DBContract.Runners.COLUMN_AGE, age);
         values.put(DBContract.Runners.COLUMN_HEIGHT, height);
         values.put(DBContract.Runners.COLUMN_WEIGHT, weight);
+        values.put(DBContract.Runners.COLUMN_DEVICE, device);
         //ID received from user data above
         values.put(DBContract.Runners.COLUMN_ID, id);
 
-        //Check if device is registered, if not register it
-        if(!doesDeviceExist(device)){
+        //Add device ID if it doesn't already exist in table
+        if(addDevice){
             ContentValues deviceValue = new ContentValues();
             deviceValue.put(DBContract.Devices.COLUMN_DEVICE, device);
+            //Set the type of device first registered to Runner
+            deviceValue.put(DBContract.Devices.COLUMN_TYPE, 0);
         }
 
         db.insert(DBContract.Runners.TABLE_NAME, null, values);
+
+        return id;
     }
 
-    public boolean doesDeviceExist(String device){
+    //RETURN: -1 = no device, 0 = device registered to other type, 1 = device already registered to same type
+    public int doesDeviceExist(String device){
         DBSQLiteHelper DBhelper = new DBSQLiteHelper(getApplicationContext());
         SQLiteDatabase db = DBhelper.getReadableDatabase();
 
         String[] select = {
                 DBContract.Devices.COLUMN_DEVICE,
+                DBContract.Devices.COLUMN_TYPE
         };
 
         String where = DBContract.Devices.COLUMN_DEVICE + " = ?";
@@ -109,7 +135,7 @@ public class RunnerSignUp extends AppCompatActivity {
         String[] whereValues = {device};
 
         Cursor cursor = db.query(
-                DBContract.Devices.TABLE_NAME,     // The table to query
+                DBContract.Devices.TABLE_NAME,   // The table to query
                 select,                          // The columns to return
                 where,                           // The columns for the WHERE clause
                 whereValues,                     // The values for the WHERE clause
@@ -120,9 +146,13 @@ public class RunnerSignUp extends AppCompatActivity {
 
         cursor.moveToFirst();
         if(cursor.getCount() == 0){ //No such device exists
-            return false;
+            return -1;
         }
-        return true; //Device already registered
+        else if(cursor.getInt(1) == 1){ //Device registered to a contact (GOOD)
+            return 0;
+        }
+        else                       //Device registered to a runner (BAD)
+            return 1;
     }
 
     @Override

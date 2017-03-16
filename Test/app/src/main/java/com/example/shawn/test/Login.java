@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class Login extends AppCompatActivity {
+    private long id; //Keeps track of user
     private Toast toast = null;
    // public final static String EXTRA_MESSAGE = "com.example.shawn.MESSAGE";
     @Override
@@ -36,10 +37,12 @@ public class Login extends AppCompatActivity {
         }
         else if(validUser(e, p)==1){
             Intent intent = new Intent(this, Runner.class);
+            intent.putExtra("ID", id);
             startActivity(intent);
         }
         else if(validUser(e, p)==2){
             Intent intent = new Intent(this, Emergency.class);
+            intent.putExtra("ID", id);
             startActivity(intent);
         }
         else{
@@ -84,8 +87,10 @@ public class Login extends AppCompatActivity {
             return 0;
         }
         else if(cursor.getInt(2) == 1){ //Runner
+            this.id = cursor.getLong(3);
             return 1;
         }
+        this.id = cursor.getLong(3);
         return 2; //Emergency Contact
     }
 

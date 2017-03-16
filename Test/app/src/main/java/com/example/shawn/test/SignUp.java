@@ -56,8 +56,8 @@ public class SignUp extends AppCompatActivity {
         else {
             try {
                 JSONObject data = new JSONObject();
-                data.put("email", "e");
-                data.put("password", "p");
+                data.put("email", e);
+                data.put("password", p);
                 //determines what form to go to next
                 if (this.runner == 1) { //Runner
                     Intent run = new Intent(this, RunnerSignUp.class);
@@ -116,7 +116,7 @@ public class SignUp extends AppCompatActivity {
                     break;
             case R.id.radio_no:
                 if (checked)
-                    this.runner = 0;
+                    this.runner = 2;
                     break;
         }
     }

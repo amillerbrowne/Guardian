@@ -14,7 +14,7 @@ public final class DBContract {
 
         public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " +
                 TABLE_NAME + "(" +
-                COLUMN_EMAIL + " TEXT UNIQUE, " +
+                COLUMN_EMAIL + " TEXT, " +
                 COLUMN_PASS + " TEXT, " +
                 COLUMN_RUNNER + " INTEGER, " +
                 _ID + " INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE)";
@@ -77,9 +77,11 @@ public final class DBContract {
     public static class Devices implements BaseColumns{
         public static final String TABLE_NAME = "devices";
         public static final String COLUMN_DEVICE = "activeDevice";
+        public static final String COLUMN_TYPE = "firstRegistered";
 
         public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " +
                 TABLE_NAME + "(" +
-                COLUMN_DEVICE + " INTEGER UNIQUE)";
+                COLUMN_DEVICE + " INTEGER UNIQUE, " +
+                COLUMN_TYPE + " INTEGER)";
     }
 }
