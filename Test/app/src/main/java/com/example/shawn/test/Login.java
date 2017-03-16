@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 public class Login extends AppCompatActivity {
     private Toast toast = null;
-    public final static String EXTRA_MESSAGE = "com.example.shawn.MESSAGE";
+   // public final static String EXTRA_MESSAGE = "com.example.shawn.MESSAGE";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
