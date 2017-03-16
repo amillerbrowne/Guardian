@@ -74,8 +74,9 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:text="Device ID"
+        android:inputType="text"
+        android:selectAllOnFocus="true"
+        android:hint="Device ID"
         android:ems="10"
         android:layout_below="@+id/secondary"
         android:layout_alignLeft="@+id/relation"
