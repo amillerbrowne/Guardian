@@ -9,9 +9,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class Runner extends AppCompatActivity {
     private long id; //Keeps track of user
+    private String device; //The user's device
+    private Toast toast = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +27,7 @@ public class Runner extends AppCompatActivity {
         Cursor cursor = getUserData(id);
         cursor.moveToFirst();
         String name = cursor.getString(0);
+        device = String.valueOf(cursor.getInt(1));
 
         String message = "Hello " + name + "!";
         TextView textView = new TextView(this);
@@ -39,7 +43,8 @@ public class Runner extends AppCompatActivity {
         SQLiteDatabase db = DBhelper.getReadableDatabase();
 
         String[] select = {
-                DBContract.Runners.COLUMN_FIRST
+                DBContract.Runners.COLUMN_FIRST,
+                DBContract.Runners.COLUMN_DEVICE
         };
 
         String where = DBContract.Runners.COLUMN_ID + " = ?";
@@ -60,9 +65,44 @@ public class Runner extends AppCompatActivity {
     }
 
     public void contacts(View view){
-        Intent intent = new Intent(this, Contacts.class);
-        intent.putExtra("ID", id);
-        startActivity(intent);
+        if(contactExists(device)) {
+            Intent intent = new Intent(this, Contacts.class);
+            intent.putExtra("ID", id);
+            startActivity(intent);
+        }
+        else{
+            toast = Toast.makeText(getApplicationContext(),"You currently have no emergency contacts signed up.",Toast.LENGTH_LONG);
+            toast.show();
+        }
+    }
+
+    public boolean contactExists(String dev){
+        DBSQLiteHelper DBhelper = new DBSQLiteHelper(getApplicationContext());
+        SQLiteDatabase db = DBhelper.getReadableDatabase();
+
+        //Use the device ID to match the user's emergency contact
+        String[] select = {
+                DBContract.Emergency.COLUMN_ID
+        };
+
+        String where = DBContract.Emergency.COLUMN_DEVICE + " = ?";
+
+        String[] whereValues = {dev};
+
+        Cursor cursor = db.query(
+                DBContract.Emergency.TABLE_NAME, // The table to query
+                select,                          // The columns to return
+                where,                           // The columns for the WHERE clause
+                whereValues,                     // The values for the WHERE clause
+                null,                            // don't group the rows
+                null,                            // don't filter by row groups
+                null                             // don't sort
+        );
+
+        if(cursor.getCount() == 0){ //No contact
+            return false;
+        }
+        return true;
     }
 
     @Override
