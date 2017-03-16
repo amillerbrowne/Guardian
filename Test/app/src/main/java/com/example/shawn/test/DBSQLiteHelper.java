@@ -7,7 +7,7 @@ import android.provider.Settings;
 
 public class DBSQLiteHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
     public static final String DATABASE_NAME = "GuardianDB";
 
     public DBSQLiteHelper(Context con){

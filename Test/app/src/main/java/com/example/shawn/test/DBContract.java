@@ -35,7 +35,7 @@ public final class DBContract {
         public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " +
                 TABLE_NAME + "(" +
                 "FOREIGN KEY(" + COLUMN_ID + ") REFERENCES " +
-                Users.TABLE_NAME + "(" + Users._ID + ")" +
+                Users.TABLE_NAME + "(" + Users._ID + "), " +
                 COLUMN_FIRST + " TEXT, " +
                 COLUMN_LAST + " TEXT, " +
                 COLUMN_DOB + " INTEGER, " +
@@ -60,7 +60,7 @@ public final class DBContract {
         public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " +
                 TABLE_NAME + "(" +
                 "FOREIGN KEY(" + COLUMN_ID + ") REFERENCES " +
-                Users.TABLE_NAME + "(" + Users._ID + ")" +
+                Users.TABLE_NAME + "(" + Users._ID + "), " +
                 COLUMN_FIRST + " TEXT, " +
                 COLUMN_LAST + " TEXT, " +
                 COLUMN_RELATE + " TEXT, " +

@@ -19,4 +19,5 @@
     <string name="button_submit">Submit</string>
     <string name="button_login">Login</string>
     <string name="button_signup">Sign Up</string>
+    <string name="title_activity_contactspage">contactspage</string>
 </resources>

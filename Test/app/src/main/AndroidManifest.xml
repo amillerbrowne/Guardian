@@ -19,7 +19,8 @@
         <activity android:name=".RunnerSignUp" />
         <activity android:name=".EmergencySignUp" />
         <activity android:name=".Runner" />
-        <activity android:name=".Emergency"></activity>
+        <activity android:name=".Emergency" />
+        <activity android:name=".Contacts"></activity>
     </application>
 
 </manifest>
