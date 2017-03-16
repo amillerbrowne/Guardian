@@ -50,13 +50,13 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="68dp" />
 
-    <EditText
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:text="Are you a Runner?"
         android:ems="10"
-        android:id="@+id/editText"
+        android:id="@+id/RunnerRadio"
         android:layout_below="@+id/confirm"
         android:layout_alignLeft="@+id/confirm"
         android:layout_alignStart="@+id/confirm"

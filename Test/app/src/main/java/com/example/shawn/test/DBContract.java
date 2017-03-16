@@ -30,17 +30,21 @@ public final class DBContract {
         public static final String COLUMN_AGE = "age";
         public static final String COLUMN_HEIGHT = "height";
         public static final String COLUMN_WEIGHT = "weight";
+        public static final String COLUMN_DEVICE = "device";
 
         public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " +
                 TABLE_NAME + "(" +
-                COLUMN_ID + " INTEGER PRIMARY KEY UNIQUE, " +
+                "FOREIGN KEY(" + COLUMN_ID + ") REFERENCES " +
+                Users.TABLE_NAME + "(" + Users._ID + ")" +
                 COLUMN_FIRST + " TEXT, " +
                 COLUMN_LAST + " TEXT, " +
                 COLUMN_DOB + " INTEGER, " +
                 COLUMN_GENDER + " TEXT, " +
                 COLUMN_AGE + " INTEGER, " +
                 COLUMN_HEIGHT + " INTEGER, " +
-                COLUMN_WEIGHT + " INTEGER)";
+                COLUMN_WEIGHT + " INTEGER, " +
+                "FOREIGN KEY(" + COLUMN_DEVICE + ") REFERENCES " +
+                Devices.TABLE_NAME + "(" + Devices.COLUMN_DEVICE + "))";
     }
 
     public static class Emergency implements BaseColumns{
@@ -51,31 +55,27 @@ public final class DBContract {
         public static final String COLUMN_RELATE = "rel";
         public static final String COLUMN_PRIMNUM = "prim";
         public static final String COLUMN_SECNUM = "sec";
-
-        public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " +
-                TABLE_NAME + "(" +
-                COLUMN_ID + " INTEGER PRIMARY KEY UNIQUE, " +
-                COLUMN_FIRST + " TEXT, " +
-                COLUMN_LAST + " TEXT, " +
-                COLUMN_RELATE + " TEXT, " +
-                COLUMN_PRIMNUM + " INTEGER, " +
-                COLUMN_SECNUM + " INTEGER)";
-    }
-
-    public static class Contacts implements BaseColumns{
-        public static final String TABLE_NAME = "contacts";
-        public static final String COLUMN_RUNNER = "rid";
-        public static final String COLUMN_EMERGENCY = "eid";
         public static final String COLUMN_DEVICE = "device";
 
         public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " +
                 TABLE_NAME + "(" +
-                COLUMN_RUNNER + " INTEGER UNIQUE, " +
-                COLUMN_EMERGENCY + " INTEGER UNIQUE, " +
-                COLUMN_DEVICE + " INTEGER UNIQUE, " +
-                "FOREIGN KEY(" + COLUMN_RUNNER + ") REFERENCES " +
-                Runners.TABLE_NAME + "(" + Runners.COLUMN_ID + "), " +
-                "FOREIGN KEY(" + COLUMN_EMERGENCY + ") REFERENCES " +
-                Emergency.TABLE_NAME + "(" + Emergency.COLUMN_ID + "))";
+                "FOREIGN KEY(" + COLUMN_ID + ") REFERENCES " +
+                Users.TABLE_NAME + "(" + Users._ID + ")" +
+                COLUMN_FIRST + " TEXT, " +
+                COLUMN_LAST + " TEXT, " +
+                COLUMN_RELATE + " TEXT, " +
+                COLUMN_PRIMNUM + " INTEGER, " +
+                COLUMN_SECNUM + " INTEGER, " +
+                "FOREIGN KEY(" + COLUMN_DEVICE + ") REFERENCES " +
+                Devices.TABLE_NAME + "(" + Devices.COLUMN_DEVICE + "))";
+    }
+
+    public static class Devices implements BaseColumns{
+        public static final String TABLE_NAME = "devices";
+        public static final String COLUMN_DEVICE = "activeDevice";
+
+        public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " +
+                TABLE_NAME + "(" +
+                COLUMN_DEVICE + " INTEGER UNIQUE)";
     }
 }

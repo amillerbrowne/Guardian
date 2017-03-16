@@ -7,7 +7,7 @@ import android.provider.Settings;
 
 public class DBSQLiteHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 3;
     public static final String DATABASE_NAME = "GuardianDB";
 
     public DBSQLiteHelper(Context con){
@@ -19,7 +19,7 @@ public class DBSQLiteHelper extends SQLiteOpenHelper {
         db.execSQL(DBContract.Users.CREATE_TABLE);
         db.execSQL(DBContract.Runners.CREATE_TABLE);
         db.execSQL(DBContract.Emergency.CREATE_TABLE);
-        db.execSQL(DBContract.Contacts.CREATE_TABLE);
+        db.execSQL(DBContract.Devices.CREATE_TABLE);
     }
 
     @Override
@@ -29,7 +29,7 @@ public class DBSQLiteHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + DBContract.Users.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + DBContract.Runners.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + DBContract.Emergency.TABLE_NAME);
-        db.execSQL("DROP TABLE IF EXISTS " + DBContract.Contacts.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + DBContract.Devices.TABLE_NAME);
 
         onCreate(db);
     }

@@ -2,6 +2,7 @@ package com.example.shawn.test;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -29,6 +30,7 @@ public class RunnerSignUp extends AppCompatActivity {
         EditText age = (EditText) findViewById(R.id.age);
         EditText height = (EditText) findViewById(R.id.height);
         EditText weight = (EditText) findViewById(R.id.weight);
+        EditText device = (EditText) findViewById(R.id.device);
         String f = first.getText() == null ? "" : first.getText().toString();
         String l = last.getText() == null ? "" : last.getText().toString();
         String d = dob.getText() == null ? "" : dob.getText().toString();
@@ -36,8 +38,9 @@ public class RunnerSignUp extends AppCompatActivity {
         String a = age.getText() == null ? "" : age.getText().toString();
         String h = height.getText() == null ? "" : height.getText().toString();
         String w = weight.getText() == null ? "" : weight.getText().toString();
+        String v = device.getText() == null ? "" : device.getText().toString();
 
-        if(f.equals("") || l.equals("") || d.equals("") || g.equals("") || a.equals("") || h.equals("") || w.equals("")){
+        if(f.equals("") || l.equals("") || d.equals("") || g.equals("") || a.equals("") || h.equals("") || w.equals("") || v.equals("")){
             toast = Toast.makeText(getApplicationContext(),"All fields must be filled in!",Toast.LENGTH_LONG);
             toast.show();
         }
@@ -48,7 +51,7 @@ public class RunnerSignUp extends AppCompatActivity {
                 JSONObject signup = new JSONObject(data);
                 String email = signup.getString("email");
                 String password = signup.getString("password");
-                addRunner(f, l, d, g, a, h, w, email, password);
+                addRunner(f, l, d, g, a, h, w, email, password, v);
             }
             catch(JSONException error){
                 toast = Toast.makeText(getApplicationContext(),"An internal system error occurred. Please close the app and restart.",Toast.LENGTH_LONG);
@@ -60,7 +63,7 @@ public class RunnerSignUp extends AppCompatActivity {
         }
     }
 
-    public void addRunner(String first, String last, String dob, String gender, String age, String height, String weight, String email, String pass){
+    public void addRunner(String first, String last, String dob, String gender, String age, String height, String weight, String email, String pass, String device){
         DBSQLiteHelper DBhelper = new DBSQLiteHelper(getApplicationContext());
         SQLiteDatabase db = DBhelper.getWritableDatabase();
 
@@ -84,7 +87,42 @@ public class RunnerSignUp extends AppCompatActivity {
         //ID received from user data above
         values.put(DBContract.Runners.COLUMN_ID, id);
 
+        //Check if device is registered, if not register it
+        if(!doesDeviceExist(device)){
+            ContentValues deviceValue = new ContentValues();
+            deviceValue.put(DBContract.Devices.COLUMN_DEVICE, device);
+        }
+
         db.insert(DBContract.Runners.TABLE_NAME, null, values);
+    }
+
+    public boolean doesDeviceExist(String device){
+        DBSQLiteHelper DBhelper = new DBSQLiteHelper(getApplicationContext());
+        SQLiteDatabase db = DBhelper.getReadableDatabase();
+
+        String[] select = {
+                DBContract.Devices.COLUMN_DEVICE,
+        };
+
+        String where = DBContract.Devices.COLUMN_DEVICE + " = ?";
+
+        String[] whereValues = {device};
+
+        Cursor cursor = db.query(
+                DBContract.Devices.TABLE_NAME,     // The table to query
+                select,                          // The columns to return
+                where,                           // The columns for the WHERE clause
+                whereValues,                     // The values for the WHERE clause
+                null,                            // don't group the rows
+                null,                            // don't filter by row groups
+                null                             // don't sort
+        );
+
+        cursor.moveToFirst();
+        if(cursor.getCount() == 0){ //No such device exists
+            return false;
+        }
+        return true; //Device already registered
     }
 
     @Override
