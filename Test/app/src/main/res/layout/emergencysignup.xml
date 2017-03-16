@@ -71,4 +71,15 @@
         android:layout_below="@+id/primary"
         android:layout_centerHorizontal="true" />
 
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="Device ID"
+        android:ems="10"
+        android:layout_below="@+id/secondary"
+        android:layout_alignLeft="@+id/relation"
+        android:layout_alignStart="@+id/relation"
+        android:id="@+id/device" />
+
 </RelativeLayout>
