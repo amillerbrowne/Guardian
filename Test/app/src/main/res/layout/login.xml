@@ -4,70 +4,73 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
     android:background="@mipmap/login">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="62dp"
-        android:text="@string/button_signup"
-        android:onClick="signup"
-        android:id="@+id/signupbutton"
-        android:layout_alignParentBottom="true"
-        android:layout_alignLeft="@+id/pass"
-        android:layout_alignStart="@+id/pass"
-        android:layout_marginBottom="89dp" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/textView2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="18dp">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="62dp"
-        android:text="@string/button_login"
-        android:onClick="login"
-        android:id="@+id/loginbutton"
-        android:layout_above="@+id/signupbutton"
-        android:layout_alignLeft="@+id/signupbutton"
-        android:layout_alignStart="@+id/signupbutton"
-        android:layout_marginBottom="18dp" />
+        <EditText android:id="@+id/email"
+            style="@style/editText_style"
+            android:selectAllOnFocus="true"
+            android:hint="@string/email"
+            android:inputType="text"/>
 
-    <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="80dp"
-        android:background="@android:drawable/screen_background_light_transparent"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true">
+        <EditText android:id="@+id/pass"
+           style="@style/editText_style"
+            android:hint="@string/password"
+            android:inputType="textPassword"
+            android:selectAllOnFocus="true"/>
+
+        <Button
+            style="@style/button_style"
+            android:text="@string/button_login"
+            android:onClick="login"
+            android:id="@+id/loginbutton"
+            android:layout_marginBottom="2dp" />
 
         <TextView
-            android:text="Welcome to Guardian"
-            android:layout_width="372dp"
-            android:layout_height="match_parent"
-            android:id="@+id/textView"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-            android:cursorVisible="false"
-            android:layout_marginTop="12dp"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true" />
-    </FrameLayout>
+            android:text="Sign Up!"
+            style="@style/textView_style"
+            android:onClick="signup"
+            android:id="@+id/signupbutton"
+            android:layout_width="match_parent" />
 
-    <EditText android:id="@+id/email"
-        android:layout_weight="1"
+    </LinearLayout>
+
+    <TextView
+        android:text="GUARDIAN"
+        android:textStyle="bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView2"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+        android:gravity="center"
+        android:layout_below="@+id/textView3"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textColor="#000000"/>
+
+    <TextView
+        android:text="Welcome to"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="@string/email"
-        android:inputType="text"
-        android:selectAllOnFocus="true"
-        style="@android:style/Widget.DeviceDefault.Light.AutoCompleteTextView"
-        android:layout_marginBottom="27dp"
-        android:layout_above="@+id/pass"
-        android:layout_centerHorizontal="true" />
-
-    <EditText android:id="@+id/pass"
-        android:layout_weight="1"
-        android:layout_height="wrap_content"
-        android:hint="@string/password"
-        android:inputType="textPassword"
-        android:selectAllOnFocus="true"
-        android:layout_width="wrap_content"
-        android:layout_marginBottom="49dp"
-        android:layout_above="@+id/loginbutton"
-        android:layout_centerHorizontal="true" />
+        android:id="@+id/textView3"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+        android:gravity="center"
+        android:textColor="#000000"
+        android:paddingLeft="20dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>
