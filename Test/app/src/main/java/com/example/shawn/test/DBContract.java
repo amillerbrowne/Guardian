@@ -34,8 +34,7 @@ public final class DBContract {
 
         public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " +
                 TABLE_NAME + "(" +
-                "FOREIGN KEY(" + COLUMN_ID + ") REFERENCES " +
-                Users.TABLE_NAME + "(" + Users._ID + "), " +
+                COLUMN_ID + " INTEGER, " +
                 COLUMN_FIRST + " TEXT, " +
                 COLUMN_LAST + " TEXT, " +
                 COLUMN_DOB + " INTEGER, " +
@@ -43,6 +42,9 @@ public final class DBContract {
                 COLUMN_AGE + " INTEGER, " +
                 COLUMN_HEIGHT + " INTEGER, " +
                 COLUMN_WEIGHT + " INTEGER, " +
+                COLUMN_DEVICE + " INTEGER, " +
+                "FOREIGN KEY(" + COLUMN_ID + ") REFERENCES " +
+                Users.TABLE_NAME + "(" + Users._ID + "), " +
                 "FOREIGN KEY(" + COLUMN_DEVICE + ") REFERENCES " +
                 Devices.TABLE_NAME + "(" + Devices.COLUMN_DEVICE + "))";
     }
@@ -59,13 +61,15 @@ public final class DBContract {
 
         public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " +
                 TABLE_NAME + "(" +
-                "FOREIGN KEY(" + COLUMN_ID + ") REFERENCES " +
-                Users.TABLE_NAME + "(" + Users._ID + "), " +
+                COLUMN_ID + " INTEGER, " +
                 COLUMN_FIRST + " TEXT, " +
                 COLUMN_LAST + " TEXT, " +
                 COLUMN_RELATE + " TEXT, " +
                 COLUMN_PRIMNUM + " INTEGER, " +
                 COLUMN_SECNUM + " INTEGER, " +
+                COLUMN_DEVICE + " INTEGER, " +
+                "FOREIGN KEY(" + COLUMN_ID + ") REFERENCES " +
+                Users.TABLE_NAME + "(" + Users._ID + "), " +
                 "FOREIGN KEY(" + COLUMN_DEVICE + ") REFERENCES " +
                 Devices.TABLE_NAME + "(" + Devices.COLUMN_DEVICE + "))";
     }
