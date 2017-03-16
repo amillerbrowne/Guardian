@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -13,7 +14,10 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.regex.Pattern;
+
 public class SignUp extends AppCompatActivity {
+    private Pattern pattern = Patterns.EMAIL_ADDRESS;
     private Toast toast = null;
     public final static String USER_ID = "com.example.shawn.USERID";
     private int runner = 0; //radio button check : 0 = not checked; 1 = runner; 2 = emergency contact
@@ -34,6 +38,11 @@ public class SignUp extends AppCompatActivity {
 
         if(e.equals("") || p.equals("") || c.equals("") || this.runner == 0){
             toast = Toast.makeText(getApplicationContext(),"All fields must be filled in!",Toast.LENGTH_LONG);
+            toast.show();
+        }
+        //Email is not proper email format: ***@***.***
+        else if(!pattern.matcher(e).matches()){
+            toast = Toast.makeText(getApplicationContext(),"Invalid Email!",Toast.LENGTH_LONG);
             toast.show();
         }
         else if(!p.equals(c)){ //If passwords don't match
