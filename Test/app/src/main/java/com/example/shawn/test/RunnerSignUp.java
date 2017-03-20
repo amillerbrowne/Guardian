@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -15,6 +16,7 @@ import org.json.JSONObject;
 
 public class RunnerSignUp extends AppCompatActivity {
     private Toast toast = null;
+    private int gender = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +28,6 @@ public class RunnerSignUp extends AppCompatActivity {
         EditText first = (EditText) findViewById(R.id.rfirst);
         EditText last = (EditText) findViewById(R.id.rlast);
         EditText dob = (EditText) findViewById(R.id.dob);
-        EditText gender = (EditText) findViewById(R.id.gender);
         EditText age = (EditText) findViewById(R.id.age);
         EditText height = (EditText) findViewById(R.id.height);
         EditText weight = (EditText) findViewById(R.id.weight);
@@ -34,7 +35,7 @@ public class RunnerSignUp extends AppCompatActivity {
         String f = first.getText() == null ? "" : first.getText().toString();
         String l = last.getText() == null ? "" : last.getText().toString();
         String d = dob.getText() == null ? "" : dob.getText().toString();
-        String g = gender.getText() == null ? "" : gender.getText().toString();
+        String g = this.gender == 0 ? "" : (this.gender == 1 ? "Male" : "Female");
         String a = age.getText() == null ? "" : age.getText().toString();
         String h = height.getText() == null ? "" : height.getText().toString();
         String w = weight.getText() == null ? "" : weight.getText().toString();
@@ -153,6 +154,22 @@ public class RunnerSignUp extends AppCompatActivity {
         }
         else                       //Device registered to a runner (BAD)
             return 1;
+    }
+
+    public void onRadioButtonClicked(View view) {
+        boolean checked = ((RadioButton) view).isChecked();
+
+        // Check which radio button was clicked
+        switch(view.getId()) {
+            case R.id.radio_male:
+                if (checked)
+                    this.gender = 1;
+                break;
+            case R.id.radio_female:
+                if (checked)
+                    this.gender = 2;
+                break;
+        }
     }
 
     @Override

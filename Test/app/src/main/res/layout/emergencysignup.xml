@@ -53,7 +53,7 @@
         android:layout_weight="1"
         android:layout_height="wrap_content"
         android:hint="@string/primary"
-        android:inputType="text"
+        android:inputType="number"
         android:selectAllOnFocus="true"
         android:layout_width="wrap_content"
         android:layout_marginTop="16dp"
@@ -64,7 +64,7 @@
         android:layout_weight="1"
         android:layout_height="wrap_content"
         android:hint="@string/secondary"
-        android:inputType="text"
+        android:inputType="number"
         android:selectAllOnFocus="true"
         android:layout_width="wrap_content"
         android:layout_marginTop="16dp"
@@ -74,13 +74,16 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="text"
+        android:inputType="number"
         android:selectAllOnFocus="true"
         android:hint="Device ID"
         android:ems="10"
-        android:layout_below="@+id/secondary"
-        android:layout_alignLeft="@+id/relation"
-        android:layout_alignStart="@+id/relation"
-        android:id="@+id/device" />
+        android:id="@+id/device"
+        android:layout_above="@+id/emergencysubmit"
+        android:layout_alignLeft="@+id/primary"
+        android:layout_alignStart="@+id/primary"
+        android:layout_marginLeft="11dp"
+        android:layout_marginStart="11dp"
+        android:layout_marginBottom="16dp" />
 
 </RelativeLayout>
