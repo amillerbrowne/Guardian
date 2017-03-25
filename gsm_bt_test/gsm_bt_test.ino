@@ -1,7 +1,7 @@
 #include <SoftwareSerial.h>
 
 #define BT_TX_PIN 11
-#define BT_RX_PIN 12
+#define BT_RX_PIN 10
 byte input = 0;
 char phone_no[] = "16179357165";
 //hardcoded for now, will replace with an actual location
