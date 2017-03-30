@@ -28,6 +28,7 @@ public class Runner {
         return dob;
     }
 
+    public Runner (){};
     public Runner(String fname, String lname, String age, String dob) {
         this.firstName = fname;
         this.lastName = fname;
