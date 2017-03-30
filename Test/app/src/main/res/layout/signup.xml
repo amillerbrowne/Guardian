@@ -61,31 +61,31 @@
         android:layout_alignStart="@+id/confirm"
         android:layout_marginTop="41dp" />
 
-    <RadioGroup
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_above="@+id/signupsubmit"
-        android:layout_marginBottom="22dp"
-        android:layout_alignLeft="@+id/pass"
-        android:layout_alignStart="@+id/pass">
-        <RadioButton android:id="@+id/radio_yes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/yes"
-            android:onClick="onRadioButtonClicked"
-            android:layout_below="@+id/editText"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="28dp" />
+    <!--<RadioGroup-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="vertical"-->
+        <!--android:layout_above="@+id/signupsubmit"-->
+        <!--android:layout_marginBottom="22dp"-->
+        <!--android:layout_alignLeft="@+id/pass"-->
+        <!--android:layout_alignStart="@+id/pass">-->
+        <!--<RadioButton android:id="@+id/radio_yes"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="@string/yes"-->
+            <!--android:onClick="onRadioButtonClicked"-->
+            <!--android:layout_below="@+id/editText"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:layout_marginTop="28dp" />-->
 
-        <RadioButton android:id="@+id/radio_no"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/no"
-            android:onClick="onRadioButtonClicked"
-            android:layout_below="@+id/radio_yes"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="11dp" />
-    </RadioGroup>
+        <!--<RadioButton android:id="@+id/radio_no"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="@string/no"-->
+            <!--android:onClick="onRadioButtonClicked"-->
+            <!--android:layout_below="@+id/radio_yes"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:layout_marginTop="11dp" />-->
+    <!--</RadioGroup>-->
 
 </RelativeLayout>

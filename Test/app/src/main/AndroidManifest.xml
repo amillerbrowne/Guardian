@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.shawn.test">
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:allowBackup="true"
@@ -20,7 +21,7 @@
         <activity android:name=".EmergencySignUp" />
         <activity android:name=".Runner" />
         <activity android:name=".Emergency" />
-        <activity android:name=".Contacts"></activity>
+        <activity android:name=".Contacts"/>
     </application>
 
 </manifest>

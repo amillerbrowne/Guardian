@@ -113,11 +113,11 @@ public class SignUp extends AppCompatActivity {
             case R.id.radio_yes:
                 if (checked)
                     this.runner = 1;
-                    break;
+                break;
             case R.id.radio_no:
                 if (checked)
                     this.runner = 2;
-                    break;
+                break;
         }
     }
 

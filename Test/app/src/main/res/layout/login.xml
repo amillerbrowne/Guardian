@@ -18,7 +18,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="18dp">
-
+L
         <EditText android:id="@+id/email"
             style="@style/editText_style"
             android:selectAllOnFocus="true"

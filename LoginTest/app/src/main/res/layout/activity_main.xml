@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/login"
+    android:paddingBottom="50dp"
+    android:paddingLeft="44dp"
+    android:paddingRight="44dp"
+    android:paddingTop="50dp"
+    tools:context="com.example.nikig.logintest.MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:id="@+id/linearLayout"
+        android:weightSum="1"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true">
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:gravity="center"
+            android:paddingLeft="20dp"
+            android:text="Welcome to"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+            android:textColor="#000000" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/textView2"
+            android:gravity="center"
+            android:text="GUARDIAN"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+            android:textColor="#000000"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/email"
+            style="@style/editText_style"
+            android:hint="Email"
+            android:inputType="text"
+            android:selectAllOnFocus="true" />
+
+        <EditText
+            android:id="@+id/pass"
+            style="@style/editText_style"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:selectAllOnFocus="true" />
+
+        <Button
+            android:id="@+id/loginbutton"
+            style="@style/button_style"
+            android:layout_marginBottom="2dp"
+            android:onClick="login"
+            android:text="Login" />
+
+        <TextView
+            android:id="@+id/signupbutton"
+            style="@style/textView_style"
+            android:layout_width="match_parent"
+            android:onClick="signup"
+            android:text="Sign Up!"
+            android:layout_alignBottom="@+id/forgot_pass"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="17dp"
+            android:layout_marginEnd="17dp" />
+
+    </LinearLayout>
+
+
+
+    <TextView
+        android:id="@+id/forgot_pass"
+        style="@style/pass_style"
+        android:layout_width="519dp"
+        android:layout_height="30dp"
+        android:text="Forgot Password?"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/linearLayout"
+        android:layout_alignEnd="@+id/linearLayout" />
+
+
+</RelativeLayout>
