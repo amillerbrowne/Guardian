@@ -29,7 +29,7 @@ public class RunnerSignUp extends AppCompatActivity {
     private Toast toast = null;
 
     // [START declare_database_ref]
-    private DatabaseReference mDatabaseUsers;
+    private DatabaseReference runnerDB;
     private FirebaseAuth Auth;
     // [END declare_database_ref]
 
@@ -39,7 +39,7 @@ public class RunnerSignUp extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.runner_signup);
 
-        mDatabaseUsers = FirebaseDatabase.getInstance().getReference("users");
+        runnerDB = FirebaseDatabase.getInstance().getReference("runner");
         Auth = FirebaseAuth.getInstance();
 
         wel = (TextView) findViewById(R.id.welcome);
@@ -60,20 +60,19 @@ public class RunnerSignUp extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                UserInformation userInfo = new UserInformation(first.getText().toString().trim(),
-                       last.getText().toString().trim(),dob.getText().toString().trim(), age.getText().toString().trim());
+                Runner runner = new Runner(first.getText().toString(), last.getText().toString(), age.getText().toString(), dob.getText().toString());
 
                 final FirebaseUser user = Auth.getCurrentUser();
-                mDatabaseUsers.child(user.getUid()).setValue(userInfo);
+                runnerDB.child(user.getUid()).setValue(runner);
 
                 // Now update the information in the User's Auth profile as well
                 UserProfileChangeRequest update = new UserProfileChangeRequest.Builder()
-                        .setDisplayName(first.getText().toString().trim() + last.getText().toString().trim())
+                        .setDisplayName(first.getText().toString().trim() + " " + last.getText().toString().trim())
                         .build();
                 user.updateProfile(update);
 
                 toast.makeText(getApplicationContext(), "Posting Data...", Toast.LENGTH_SHORT).show();
-                wel.setText("Welcome "+ userInfo.getN());
+//                wel.setText("Welcome "+ userInfo.getN());
 
                 startActivity(new Intent(RunnerSignUp.this, Home.class));
                 finish();

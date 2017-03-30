@@ -53,28 +53,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
         msg_welcome = (TextView) findViewById(R.id.welcome);
         msg_welcome.setText("Welcome "+ user.getDisplayName());
 
-
-//        mDatabase.child(userId).setValue(user);
-
-
         buttonLogout.setOnClickListener(this);
-
-        //This is probably not necessary...but ok
-       firebase = new FirebaseAuth.AuthStateListener(){
-           @Override
-           public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-               FirebaseUser user = firebaseAuth.getCurrentUser();
-               if (user != null) {
-                   // User is signed in
-                   msg_welcome.setText("Welcome "+ user.getDisplayName());
-//                   Log.d(TAG, user.getDisplayName());
-               } else {
-                   // User is signed out
-                   toast.makeText(getApplicationContext(), "log out", Toast.LENGTH_LONG).show();
-               }
-               // ...
-           }
-       };
     }
 
 
