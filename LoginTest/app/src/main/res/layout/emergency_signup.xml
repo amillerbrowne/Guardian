@@ -23,7 +23,7 @@
             android:inputType="textPersonName" />
 
         <TextView
-            android:id="@+id/textView8"
+            android:id="@+id/phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="First Name" />
@@ -42,14 +42,14 @@
             android:text="Last Name" />
 
         <EditText
-            android:id="@+id/editText3"
+            android:id="@+id/primary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="phone" />
 
         <TextView
-            android:id="@+id/primary"
+            android:id="@+id/textView12"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="TextView" />
