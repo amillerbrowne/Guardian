@@ -25,6 +25,7 @@ public class RunnerSignUp extends AppCompatActivity {
     private EditText last;
     private EditText dob;
     private EditText age;
+    private  EditText emergency_id;
     private Button buttonSubmit;
     private Toast toast = null;
 
@@ -47,6 +48,7 @@ public class RunnerSignUp extends AppCompatActivity {
         last = (EditText) findViewById(R.id.rlast);
         dob = (EditText) findViewById(R.id.dob);
         age = (EditText) findViewById(R.id.age);
+        emergency_id = (EditText) findViewById(R.id.emergency_id);
         buttonSubmit = (Button) findViewById(R.id.submit);
 
 
@@ -60,10 +62,13 @@ public class RunnerSignUp extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Runner runner = new Runner(first.getText().toString(), last.getText().toString(), age.getText().toString(), dob.getText().toString());
+                Runner runner = new Runner(first.getText().toString(), last.getText().toString(), age.getText().toString(), dob.getText().toString(), emergency_id.getText().toString());
+
+
 
                 final FirebaseUser user = Auth.getCurrentUser();
                 runnerDB.child(user.getUid()).setValue(runner);
+
 
                 // Now update the information in the User's Auth profile as well
                 UserProfileChangeRequest update = new UserProfileChangeRequest.Builder()
@@ -73,8 +78,7 @@ public class RunnerSignUp extends AppCompatActivity {
 
                 toast.makeText(getApplicationContext(), "Posting Data...", Toast.LENGTH_SHORT).show();
 //                wel.setText("Welcome "+ userInfo.getN());
-
-                startActivity(new Intent(RunnerSignUp.this, Home.class));
+                startActivity(new Intent(RunnerSignUp.this, MainActivity.class));
                 finish();
             }
 

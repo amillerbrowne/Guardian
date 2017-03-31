@@ -25,7 +25,8 @@
         <activity
             android:name=".RunnerSignUp"
             android:label="Runner&apos;s Sign Up" />
-        <activity android:name=".EmergencySignUp"></activity>
+        <activity android:name=".EmergencySignUp" />
+        <activity android:name=".EmergencyCard"></activity>
     </application>
 
 </manifest>

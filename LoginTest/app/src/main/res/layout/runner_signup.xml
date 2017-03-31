@@ -90,7 +90,22 @@
             android:id="@+id/textView7"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Age"
+            android:text="Age" />
+
+        <EditText
+            android:id="@+id/emergency_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.11"
+            android:ems="10"
+            android:inputType="textPersonName" />
+
+        <TextView
+            android:id="@+id/od"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.11"
+            android:text="Emergency Contact ID"
             android:layout_marginBottom="20dp"/>
 
         <Button
