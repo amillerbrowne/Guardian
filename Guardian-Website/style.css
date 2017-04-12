@@ -1,0 +1,42 @@
+#bg {
+  position: fixed; 
+  top: -50%; 
+  left: -50%; 
+  width: 200%; 
+  height: 200%;
+}
+#bg img {
+  position: absolute; 
+  top: 0; 
+  left: 0; 
+  right: 0; 
+  bottom: 0; 
+  margin: auto; 
+  min-width: 50%;
+  min-height: 50%;
+}
+
+h1
+{
+  font-size: 40px; 
+  font-weight:bold;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
+}
+
+p
+{
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
+}
+
+.nav a 
+{
+  color:#D19C21;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
+  font-size: 16px;
+  font-style: normal;
+}
+
+.jumbotron
+{
+  background-color: #D19C21;
+}
