@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorBGgrey"
+    android:weightSum="10"
+    tools:context="com.example.nikig.logintest.Home">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:background="@color/colorBlack">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorBGgrey">
+
+            <TextView
+                android:id="@+id/welcome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerInParent="true"
+                android:textColor="@color/colorWhite"
+                android:textStyle="bold"
+                android:textSize="40dp"
+                tools:text="Testing" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/colorBGgrey"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="Select Your Device:"
+                android:textColor="@color/colorWhite"
+                android:textSize="30dp"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5"
+        android:background="@color/colorVeryLightGrey">
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/listView"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/colorBlack"
+        android:layout_weight="1">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/findDevicesButton"
+            android:background="@drawable/button_dark"
+            android:layout_margin="2dp"
+            android:text="Find Devices"
+            android:textSize="20dp"
+            android:textColor="@color/colorWhite"
+            android:layout_gravity="center" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:background="@color/colorBlack"
+        android:weightSum="3">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:id="@+id/log_out"
+            android:layout_weight="1"
+            android:text="Log Out"
+            android:textColor="@color/colorWhite"
+            android:textSize="20dp"
+            android:onClick="logoutUser"
+            android:layout_margin="2dp"
+            android:background="@drawable/button_dark"/>
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:id="@+id/startRunButton"
+            android:layout_weight="1"
+            android:text="Start Run"
+            android:textSize="30dp"
+            android:layout_margin="2dp"
+            android:textColor="@color/colorYellow"
+            android:background="@drawable/button_green"
+            android:onClick="startRun" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:id="@+id/addContactButton"
+            android:layout_weight="1"
+            android:text="Add\nEmergency\nContact"
+            android:textColor="@color/colorWhite"
+            android:textSize="15dp"
+            android:layout_margin="2dp"
+            android:background="@drawable/button_dark"
+            android:onClick="addEmergencyContact"/>
+    </LinearLayout>
+</LinearLayout>

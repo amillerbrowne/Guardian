@@ -22,7 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class Home extends AppCompatActivity implements View.OnClickListener {
     private Button buttonLogout;
-    private Button buttonStore;
+    private Button buttonCard;
     private TextView msg_welcome;
 
     private Toast toast = null;
@@ -48,10 +48,13 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
 
         String userId = Auth.getCurrentUser().getUid();
         buttonLogout = (Button) findViewById(R.id.log_out);
+        buttonCard= (Button) findViewById(R.id.card);
         msg_welcome = (TextView) findViewById(R.id.welcome);
+        //msg_welcome.setText("Welcome "+Runner.getCurrentuser().getFirstName());
         msg_welcome.setText("Welcome "+ user.getDisplayName());
 
         buttonLogout.setOnClickListener(this);
+        buttonCard.setOnClickListener(this);
     }
 
 
@@ -78,6 +81,10 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
             Auth.signOut();
             finish();
             startActivity(new Intent(this, MainActivity.class));
+        }
+         if (v == buttonCard){
+            startActivity(new Intent(this, EmergencyCard.class));
+
         }
 
     }

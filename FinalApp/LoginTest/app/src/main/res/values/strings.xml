@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Guardian</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_map">Map</string>
+    <string name="confirmEmergency">
+        Confirm emergency alert to be sent to 911 or to your personal emergency contact.
+        Press cancel to disengage the alert.
+    </string>
+    <string name="title_activity_maps">Map</string>
+</resources>

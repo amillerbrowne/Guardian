@@ -95,6 +95,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 //start profile activity
                                 startActivity(new Intent(getApplicationContext(), Home.class));
                                 Toast.makeText(MainActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
+                                //get information for the database
+                                //getValue();
                                 finish();
                             }
                             else{

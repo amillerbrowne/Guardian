@@ -11,6 +11,8 @@ public class Runner {
     private String age;
     private String dob;
     private String emergencyid;
+    //create a static variable to set to current user
+    static Runner currentuser;
 
 
     public String getFirstName() {
@@ -31,6 +33,10 @@ public class Runner {
 
     public String getEmergencyid() {
         return emergencyid;
+    }
+
+    public static Runner getCurrentuser() {
+        return currentuser;
     }
 
 

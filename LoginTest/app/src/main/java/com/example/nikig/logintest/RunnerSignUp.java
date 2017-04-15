@@ -31,6 +31,7 @@ public class RunnerSignUp extends AppCompatActivity {
 
     // [START declare_database_ref]
     private DatabaseReference runnerDB;
+    private DatabaseReference emergencyDB;
     private FirebaseAuth Auth;
     // [END declare_database_ref]
 
@@ -41,6 +42,7 @@ public class RunnerSignUp extends AppCompatActivity {
         setContentView(R.layout.runner_signup);
 
         runnerDB = FirebaseDatabase.getInstance().getReference("runner");
+        emergencyDB = FirebaseDatabase.getInstance().getReference("emergency");
         Auth = FirebaseAuth.getInstance();
 
         wel = (TextView) findViewById(R.id.welcome);
@@ -64,7 +66,10 @@ public class RunnerSignUp extends AppCompatActivity {
 
                 Runner runner = new Runner(first.getText().toString(), last.getText().toString(), age.getText().toString(), dob.getText().toString(), emergency_id.getText().toString());
 
+                //Runner.currentuser.getAge()
+                //String econtact = Runner.currentuser.getEmergencyid();
 
+                //emergencyDB.child(econtact).
 
                 final FirebaseUser user = Auth.getCurrentUser();
                 runnerDB.child(user.getUid()).setValue(runner);

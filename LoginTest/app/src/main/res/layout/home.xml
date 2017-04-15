@@ -22,6 +22,15 @@
         tools:text="Testing" />
 
     <Button
+        android:id="@+id/card"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/log_out"
+        android:layout_alignStart="@+id/log_out"
+        android:layout_centerVertical="true"
+        android:text="Button" />
+
+    <Button
         android:id="@+id/log_out"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
