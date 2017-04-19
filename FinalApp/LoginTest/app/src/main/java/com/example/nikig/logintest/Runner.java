@@ -11,6 +11,7 @@ public class Runner {
     private String age;
     private String dob;
     private String emergencyid;
+    private double latitude, longitude;
 
 
     public String getFirstName() {
@@ -33,14 +34,26 @@ public class Runner {
         return emergencyid;
     }
 
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+
+
 
     public Runner (){};
-    public Runner(String fname, String lname, String age, String dob, String emergencyid) {
+    public Runner(String fname, String lname, String age, String dob, String emergencyid, double latitude, double longitude) {
         this.firstName = fname;
         this.lastName = lname;
         this.age = age;
         this.dob = dob;
         this.emergencyid = emergencyid;
+        this.latitude = getLatitude();
+        this.longitude = getLongitude();
 
     }
 

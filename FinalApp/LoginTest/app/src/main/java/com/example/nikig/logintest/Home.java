@@ -35,7 +35,7 @@ public class Home extends AppCompatActivity implements CreateEContactDialog.cont
     private Button buttonStore;
 
     private TextView msg_welcome;
-    private Button buttonCard;
+    private Button viewContactInfoButton;
     private Button buttonrSetting;
     private TextView UserID;
     //create a runner instance
@@ -80,10 +80,9 @@ public class Home extends AppCompatActivity implements CreateEContactDialog.cont
 
         String userId = Auth.getCurrentUser().getUid();
         buttonLogout = (Button) findViewById(R.id.log_out);
+        viewContactInfoButton = (Button) findViewById(R.id.userIdDisplay);
         msg_welcome = (TextView) findViewById(R.id.welcome);
         msg_welcome.setText("Welcome "+ user.getDisplayName());
-//        buttonrSetting= (Button) findViewById(R.id.rSetting);
-        UserID = (TextView) findViewById(R.id.userIdDisplay);
 
         //created user and get current UID for their info
         String UID=  user.getUid();
@@ -91,7 +90,6 @@ public class Home extends AppCompatActivity implements CreateEContactDialog.cont
         Log.d(TAG,UID);
         //pass it into function to get user info with unique ID
         getUserInfo(UID);
-        UserID.setText(UID);
 
 
         buttonLogout.setOnClickListener(new View.OnClickListener() {
@@ -104,7 +102,7 @@ public class Home extends AppCompatActivity implements CreateEContactDialog.cont
 //                startActivity(new Intent(this, MainActivity.class));
             }
         });
-        buttonCard.setOnClickListener(new View.OnClickListener() {
+        viewContactInfoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Home.this, EmergencyCard.class);
@@ -112,15 +110,6 @@ public class Home extends AppCompatActivity implements CreateEContactDialog.cont
                 startActivity(intent);
             }
         });
-        buttonrSetting.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Home.this, rSetting.class);
-//            intent.putExtra("runnerid", getUserInfo(UserID));
-                startActivity(intent);
-            }
-        });
-
 
 
         //Calling widgets

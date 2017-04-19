@@ -48,6 +48,15 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Transaction;
 
 import java.io.IOException;
 import java.util.Calendar;
@@ -99,6 +108,13 @@ public class MapsActivity extends FragmentActivity
     private float distanceRun;
     public int selectedContactIndex, updateCounter;
 
+    /** database variables **/
+    private Runner runner;
+    private FirebaseAuth Auth;
+    private FirebaseAuth.AuthStateListener authStateListener;
+    private DatabaseReference databaseReference;
+    private FirebaseUser firebaseUser;
+
     /** TESTING PURPOSE VARS **/
     String contacts[] = {"Inna", "Alex"};
     final String contactNums[] = {"16179357165", "17818660040"};
@@ -126,6 +142,16 @@ public class MapsActivity extends FragmentActivity
         new ConnectBT().execute();
         // if success, set connection bar to green
         bluetoothConnectSuccess(connectionStatus);
+
+        // set up database connection
+        Auth = FirebaseAuth.getInstance();
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+        firebaseUser = Auth.getCurrentUser();
+
+        if(firebaseUser == null) {
+            finish();
+            startActivity(new Intent(this, MainActivity.class));
+        }
 
         // default emergency contact number to 911 for now (NOT REAL 911)
         selectedContactPhoneNo = "119";
@@ -251,6 +277,13 @@ public class MapsActivity extends FragmentActivity
 
         // update counter and send data if we reach 7; ~21 seconds per update to device
         updateCounter++;
+
+        // update database every 15 seconds
+        if(updateCounter == 3 || updateCounter == 8) {
+            updateLocationInDatabase(lastLocation);
+        }
+
+        // update arduino every 30 seconds
         if(updateCounter == 10){
             sendFormattedStringByBluetooth(getEContactCallParameters());
             updateCounter = 0;
@@ -268,6 +301,14 @@ public class MapsActivity extends FragmentActivity
         longitudeTV = (TextView) findViewById(R.id.longitude);
         latitudeTV.setText(String.valueOf(location.getLatitude()));
         longitudeTV.setText(String.valueOf(location.getLongitude()));
+    }
+
+    private void updateLocationInDatabase(Location location) {
+        DatabaseReference reference = databaseReference.child("runner").child(firebaseUser.getUid());
+        Log.d(TAG, firebaseUser.getUid());
+
+        databaseReference.child(firebaseUser.getUid()).child("latitude").setValue(lastLocation.getLatitude());
+        databaseReference.child(firebaseUser.getUid()).child("longitude").setValue(lastLocation.getLongitude());
     }
 
     private void updateCameraLocation(Location location) {

@@ -120,16 +120,20 @@
             android:layout_height="match_parent"
             android:id="@+id/addContactButton"
             android:layout_weight="1"
-            android:text="Add\nEmergency\nContact"
+            android:text="Update\nEmergency\nContact"
             android:textColor="@color/colorWhite"
             android:textSize="15dp"
             android:layout_margin="2dp"
             android:background="@drawable/button_dark"
             android:onClick="addEmergencyContact"/>
     </LinearLayout>
-    <TextView
+    <Button
         android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:background="@drawable/button_dark"
+        android:text="View Emergency Contact Info"
+        android:textColor="@color/colorWhite"
+        android:textSize="15dp"
         android:id="@+id/userIdDisplay" />
 </LinearLayout>
