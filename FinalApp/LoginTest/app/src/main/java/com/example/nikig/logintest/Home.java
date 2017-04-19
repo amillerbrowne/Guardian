@@ -4,6 +4,7 @@ import android.app.DialogFragment;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -21,15 +22,25 @@ import java.util.Set;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
 public class Home extends AppCompatActivity implements CreateEContactDialog.contactDialogListener {
 
     private Button buttonLogout;
     private Button buttonStore;
+
     private TextView msg_welcome;
+    private Button buttonCard;
+    private Button buttonrSetting;
+    private TextView UserID;
+    //create a runner instance
+    private Runner mRunner;
+
 
     String address;
 
@@ -48,6 +59,9 @@ public class Home extends AppCompatActivity implements CreateEContactDialog.cont
     private FirebaseAuth Auth;
     private FirebaseAuth.AuthStateListener firebase;
     private DatabaseReference mDatabase;
+
+    //added this for troubleshooting
+    private static String TAG = Home.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,18 +82,46 @@ public class Home extends AppCompatActivity implements CreateEContactDialog.cont
         buttonLogout = (Button) findViewById(R.id.log_out);
         msg_welcome = (TextView) findViewById(R.id.welcome);
         msg_welcome.setText("Welcome "+ user.getDisplayName());
+//        buttonrSetting= (Button) findViewById(R.id.rSetting);
+        UserID = (TextView) findViewById(R.id.userIdDisplay);
+
+        //created user and get current UID for their info
+        String UID=  user.getUid();
+        //print to make sure accuracy
+        Log.d(TAG,UID);
+        //pass it into function to get user info with unique ID
+        getUserInfo(UID);
+        UserID.setText(UID);
+
 
         buttonLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (v == buttonLogout) {
-                    Auth.signOut();
-                    finish();
-                    Intent intent = new Intent(Home.this, MainActivity.class);
-                    startActivity(intent);
-                }
+                Auth.signOut();
+                finish();
+                Intent intent = new Intent(Home.this, MainActivity.class);
+                startActivity(intent);
+//                startActivity(new Intent(this, MainActivity.class));
             }
         });
+        buttonCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Home.this, EmergencyCard.class);
+                intent.putExtra("emergencyid", mRunner.getEmergencyid() );
+                startActivity(intent);
+            }
+        });
+        buttonrSetting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Home.this, rSetting.class);
+//            intent.putExtra("runnerid", getUserInfo(UserID));
+                startActivity(intent);
+            }
+        });
+
+
 
         //Calling widgets
         btnPaired = (Button)findViewById(R.id.findDevicesButton);
@@ -169,6 +211,28 @@ public class Home extends AppCompatActivity implements CreateEContactDialog.cont
     public void addEmergencyContactToList(String name, String number) {
         contactNames.add(name);
         contactNums.add(number);
+    }
+
+    private void getUserInfo(final String UID) {
+        //referencing/ checking if that uid has a child
+        DatabaseReference myRef = mDatabase.child("runner").child(UID);
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+//                Log.d(TAG,dataSnapshot.getChildren(""));
+                mRunner= dataSnapshot.getValue(Runner.class);
+
+                Log.d(TAG,"Runner= "+ mRunner.getEmergencyid());
+//                Log.d(TAG,"Runner= "+ mRunner.getAge());
+                Log.d(TAG,"Runner= "+ mRunner.getFirstName());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     public void startRun(View view) {
