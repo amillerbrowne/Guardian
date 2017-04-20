@@ -52,7 +52,8 @@
         </activity>
         <activity android:name=".rSetting" />
         <activity android:name=".EContactHome" />
-        <activity android:name=".SetContactRunner"></activity>
+        <activity android:name=".SetContactRunner" />
+        <activity android:name=".RunnerCard"></activity>
     </application>
 
 </manifest>

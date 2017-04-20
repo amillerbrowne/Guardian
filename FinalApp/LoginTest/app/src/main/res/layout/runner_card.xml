@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="50dp"
+    android:paddingLeft="44dp"
+    android:paddingRight="44dp"
+    android:paddingTop="50dp"
+    tools:context="com.example.nikig.logintest.RunnerCard">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/runnerName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:layout_marginBottom="10dp"
+            android:hint="First Name"
+            android:textSize="25dp"/>
+
+        <TextView
+            android:id="@+id/runnerLast"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:layout_marginBottom="10dp"
+            android:hint="Last Name"
+            android:textSize="25dp"/>
+
+        <TextView
+            android:id="@+id/rLongitude"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:layout_marginBottom="10dp"
+            android:hint="Longitude"
+            android:textSize="25dp"/>
+
+        <TextView
+            android:id="@+id/rLatitude"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:layout_marginBottom="10dp"
+            android:hint="Latitude"
+            android:textSize="25dp"/>
+    </LinearLayout>
+
+</RelativeLayout>

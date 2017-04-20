@@ -85,9 +85,9 @@ public class Home extends AppCompatActivity implements CreateEContactDialog.cont
             finish();
         }
 
-        // check if user is an emergency contact
-        String userId = Auth.getCurrentUser().getUid();
-        checkIfContact(userId);
+//        // check if user is an emergency contact
+//        String userId = Auth.getCurrentUser().getUid();
+//        checkIfContact(userId);
 
 
 
@@ -177,32 +177,32 @@ public class Home extends AppCompatActivity implements CreateEContactDialog.cont
 
     }
 
-    private void checkIfContact(final String id) {
-        Log.d("Entering:",  "checkIfContact()");
-        DatabaseReference ref = mDatabase.child("emergency");
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.d("Entering:", "onDataChange()");
-                if (dataSnapshot.hasChild(id)) {
-                    Log.d("Entered:", "dataSnapshot.hasChild(id)");
-                    // go to contact homepage instead
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            startActivity(new Intent(getApplicationContext(), EContactHome.class));
-                            finish();
-                        }
-                    });
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.d("Canceled:", "checkIfContact() Canceled");
-            }
-        });
-    }
+//    private void checkIfContact(final String id) {
+//        Log.d("Entering:",  "checkIfContact()");
+//        DatabaseReference ref = mDatabase.child("emergency");
+//        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                Log.d("Entering:", "onDataChange()");
+//                if (dataSnapshot.hasChild(id)) {
+//                    Log.d("Entered:", "dataSnapshot.hasChild(id)");
+//                    // go to contact homepage instead
+//                    runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            startActivity(new Intent(getApplicationContext(), EContactHome.class));
+//                            finish();
+//                        }
+//                    });
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//                Log.d("Canceled:", "checkIfContact() Canceled");
+//            }
+//        });
+//    }
 
     /** TODO: ADD A CONNECTION STATUS BAR TO SHOW WHICH BLUETOOTH DEVICE IS SELECTED FROM THE LIST */
 

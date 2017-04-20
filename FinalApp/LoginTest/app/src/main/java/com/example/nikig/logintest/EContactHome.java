@@ -21,7 +21,7 @@ public class EContactHome extends AppCompatActivity {
     private Runner eContactsRunner;
 
     /** Debugging members **/
-    public static final String TAG = MapsActivity.class.getSimpleName();
+    public static final String TAG = EContactHome.class.getSimpleName();
 
     /** primitive member variables **/
     private double latitude, longitude;
@@ -57,16 +57,17 @@ public class EContactHome extends AppCompatActivity {
         runnerNameTV = (TextView) findViewById(R.id.runnerNameTV);
         LatLngTV = (TextView) findViewById(R.id.locationTV);
 
-        // grab the emergency contact's runner info from the database
+//        // grab the emergency contact's runner info from the database
         eContactID = firebaseUser.getUid();
+//
         Log.d(TAG, eContactID); // log for debugging
-
-        // pull the contact's info from the database, including the associated runner
-        getEContactInfo();
+//
+//        // pull the contact's info from the database, including the associated runner
+        getEContactInfo(eContactID);
 
     }
 
-    private void getEContactInfo() {
+    private void getEContactInfo(final String eId) {
         DatabaseReference reference = databaseReference.child("emergency").child(firebaseUser.getUid());
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

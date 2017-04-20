@@ -33,8 +33,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView buttonSignup;
     private EditText editTextEmail;
     private EditText editTextPassword;
+    public static final String TAG = MainActivity.class.getSimpleName();
 
-    public static final String TAG = MapsActivity.class.getSimpleName();
 
 
     private FirebaseAuth Auth;
@@ -71,9 +71,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 */
         //check already session, if ok -> DashBoard
         if (Auth.getCurrentUser() != null) {
-            startActivity(new Intent(MainActivity.this, Home.class));
+            String userId = firebaseUser.getUid();
+            Log.d(TAG,userId);
+//            startActivity(new Intent(MainActivity.this, Home.class));
+            checkUserTypeAndGoHome(userId);
         }
+        // check if user is an emergency contact
+
+
     }
+
+//    private void checkIfContact(final String userId) {
+//            Log.d("Entering:",  "checkIfContact()");
+//            DatabaseReference ref = databaseReference.child("emergency");
+//            ref.addListenerForSingleValueEvent(new ValueEventListener() {
+//                @Override
+//                public void onDataChange(DataSnapshot dataSnapshot) {
+//                    Log.d("Entering:", "onDataChange()");
+//                    if (dataSnapshot.hasChild(userId)) {
+//                        Log.d("Entered:", "dataSnapshot.hasChild(userId)");
+//                        // go to contact homepage instead
+//                        runOnUiThread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                startActivity(new Intent(getApplicationContext(), EContactHome.class));
+//                                finish();
+//                            }
+//                        });
+//                    }
+//                }
+//
+//                @Override
+//                public void onCancelled(DatabaseError databaseError) {
+//                    Log.d("Canceled:", "checkIfContact() Canceled");
+//                }
+//            });
+//        }
+
 
     private void checkUserTypeAndGoHome(final String userId) {
         databaseReference = FirebaseDatabase.getInstance().getReference();
@@ -83,8 +117,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.hasChild(userId)) {
                     // is runner
-                    startActivity(new Intent(getApplicationContext(), Home.class));
-                    finish();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            startActivity(new Intent(getApplicationContext(), Home.class));
+                            finish();
+                        }
+                    });
+
                 } else { // is contact
                     startActivity(new Intent(getApplicationContext(), EContactHome.class));
                     finish();
