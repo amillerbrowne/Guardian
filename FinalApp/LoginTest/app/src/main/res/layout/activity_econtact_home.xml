@@ -14,22 +14,33 @@
     tools:context="com.example.nikig.logintest.EContactHome">
 
     <TextView
+        android:id="@+id/eName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/runnerNameTV"
-        android:textColor="@color/colorWhite"
-        android:paddingTop="50dp" />
+        android:layout_marginBottom="10dp"
+        android:hint="User Name"
+        android:textSize="25dp" />
 
     <TextView
+        android:id="@+id/eUserID"
         android:layout_width="match_parent"
-        android:textColor="@color/colorWhite"
-        android:layout_height="100dp"
-        android:id="@+id/spaceBreak" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:textColor="@color/colorWhite"
         android:layout_height="wrap_content"
-        android:id="@+id/locationTV" />
+        android:layout_marginBottom="20dp"
+        android:hint="User Id"
+        android:textSize="25dp"
+        />
+
+    <Button
+        android:id="@+id/eRunnerInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Runner Info"
+        android:layout_marginBottom="30dp"/>
+
+    <Button
+        android:id="@+id/eLogout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Logout" />
 
 </LinearLayout>

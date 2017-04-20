@@ -68,15 +68,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             checkUserTypeAndGoHome(firebaseUser.getUid());
             finish();
         }
+
 */
         //check already session, if ok -> DashBoard
+
         if (Auth.getCurrentUser() != null) {
             String userId = firebaseUser.getUid();
             Log.d(TAG,userId);
-//            startActivity(new Intent(MainActivity.this, Home.class));
             checkUserTypeAndGoHome(userId);
+
+//            startActivity(new Intent(MainActivity.this, Home.class));
+
         }
         // check if user is an emergency contact
+
 
 
     }
@@ -120,6 +125,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            Log.d(TAG,"is a runner");
+                            Log.d(TAG,userId);
                             startActivity(new Intent(getApplicationContext(), Home.class));
                             finish();
                         }
@@ -176,9 +183,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 //start profile activity
-                                startActivity(new Intent(getApplicationContext(), Home.class));
+//                                String userId = firebaseUser.getUid();
+//                                Log.d(TAG,userId);
+//                                checkUserTypeAndGoHome(userId);
+//                                startActivity(new Intent(getApplicationContext(), Home.class));
                                 Toast.makeText(MainActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
-                                //checkUserTypeAndGoHome(Auth.getCurrentUser().getUid());
+                                checkUserTypeAndGoHome(Auth.getCurrentUser().getUid());
                                 finish();
                             }
                             else{
