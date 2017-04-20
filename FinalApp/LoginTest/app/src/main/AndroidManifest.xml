@@ -51,7 +51,8 @@
                 android:value="com.example.nikig.logintest.Home" />
         </activity>
         <activity android:name=".rSetting" />
-        <activity android:name=".EContactHome"></activity>
+        <activity android:name=".EContactHome" />
+        <activity android:name=".SetContactRunner"></activity>
     </application>
 
 </manifest>

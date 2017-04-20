@@ -1,8 +1,10 @@
 package com.example.nikig.logintest;
 
 import android.app.DialogFragment;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.provider.ContactsContract;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -105,13 +107,29 @@ public class Home extends AppCompatActivity implements CreateEContactDialog.cont
         buttonLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Auth.signOut();
-                finish();
-                Intent intent = new Intent(Home.this, MainActivity.class);
-                startActivity(intent);
-//                startActivity(new Intent(this, MainActivity.class));
+                AlertDialog.Builder builder = new AlertDialog.Builder(Home.this);
+                builder.setTitle("Confirm Logout");
+                builder.setMessage("Are you sure you want to logout of Guardian?");
+                builder.setPositiveButton("Logout", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Auth.signOut();
+                        finish();
+                        Intent intent = new Intent(Home.this, MainActivity.class);
+                        startActivity(intent);
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
         });
+
         viewContactInfoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -160,25 +178,6 @@ public class Home extends AppCompatActivity implements CreateEContactDialog.cont
     }
 
     private void checkIfContact(final String id) {
-/*
-        DatabaseReference reference = mDatabase.child("emergency").child(id);
-        reference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.d(TAG, "Entered onDataChange");
-                possibleContact = dataSnapshot.getValue(Emergency.class);
-
-                if(possibleContact != null) {
-                    startActivity(new Intent(Home.this, EContactHome.class));
-                    finish();
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) { }
-        });
-    }
-*/
         Log.d("Entering:",  "checkIfContact()");
         DatabaseReference ref = mDatabase.child("emergency");
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -279,11 +278,8 @@ public class Home extends AppCompatActivity implements CreateEContactDialog.cont
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
+            public void onCancelled(DatabaseError databaseError) { }
         });
-
     }
 
     public void startRun(View view) {

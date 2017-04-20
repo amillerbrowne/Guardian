@@ -11,7 +11,7 @@ public class Emergency {
     private String elastName;
     private String phone;
     private String relation;
-    private String runnerID;
+    private String runnerid;
 
     public String getType() {
         return type;
@@ -34,24 +34,24 @@ public class Emergency {
     }
 
     public String getRunnerID() {
-        return runnerID;
+        return runnerid;
     }
 
     public void setRunnerID(String id) {
-        runnerID = id;
+        runnerid = id;
     }
 
 
 
     public Emergency() {};
 
-    public Emergency(String type, String efirstName, String elastName, String phone, String relation, String runnerID) {
+    public Emergency(String type, String efirstName, String elastName, String phone, String relation, String runnerid) {
         this.type = "contact";
         this.efirstName = efirstName;
         this.elastName = elastName;
         this.phone = phone;
         this.relation = relation;
-        this.runnerID = null;
+        this.runnerid = runnerid;
     }
 
 }

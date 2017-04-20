@@ -55,7 +55,7 @@ public class EmergencySignUp extends AppCompatActivity {
                      eLast.getText().toString(),
                      phone.getText().toString(),
                      relation.getText().toString(),
-                     null);
+                     "");
 
 
 

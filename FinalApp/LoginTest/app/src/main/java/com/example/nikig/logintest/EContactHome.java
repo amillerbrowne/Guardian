@@ -62,32 +62,31 @@ public class EContactHome extends AppCompatActivity {
         Log.d(TAG, eContactID); // log for debugging
 
         // pull the contact's info from the database, including the associated runner
-        getEContactInfo(eContactID);
-
-        if(runnerID != null) {
-            getRunnerInfo(runnerID);
-        }
+        getEContactInfo();
 
     }
 
-    private void getEContactInfo(String id) {
-        DatabaseReference reference = databaseReference.child("emergency").child(id);
+    private void getEContactInfo() {
+        DatabaseReference reference = databaseReference.child("emergency").child(firebaseUser.getUid());
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 eContact = dataSnapshot.getValue(Emergency.class);
+                Log.d("runnerID", eContact.getRunnerID());
 
                 // Check that the emergency contact has a runner associated with them
                 // if they don't, prompt them to add their runner with the correct ID
                 if(eContact.getRunnerID() == null) {
-                    // TODO: HAVE USER ENTER RUNNER ID TO CONNECT THEM
-                    // for now if null set to "null"
-                    eContact.setRunnerID("null");
+                    Intent intent = new Intent(getApplicationContext(), SetContactRunner.class);
+                    startActivity(intent);
                 } else {
                     runnerID = eContact.getRunnerID();
                 }
                 Log.d(TAG, "ContactName = " + eContact.getEfirstName() + eContact.getElastName());
                 Log.d(TAG, "PhoneNo = " + eContact.getPhone());
+                if(runnerID == null) {
+                    Log.d(TAG, "Runner ID is null");
+                } else getRunnerInfo(runnerID);
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -103,7 +102,8 @@ public class EContactHome extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 eContactsRunner = dataSnapshot.getValue(Runner.class);
-
+                Log.d(TAG, "RunnerName = " + eContactsRunner.getLastName());
+                Log.d(TAG, "RunnerLocation = " + getFormattedRunnerName(eContactsRunner.getFirstName(), eContactsRunner.getLastName()));
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

@@ -6,17 +6,12 @@ package com.example.nikig.logintest;
 
 public class Runner {
 
-    private String type;
     private String firstName;
     private String lastName;
     private String age;
     private String dob;
     private String emergencyid;
     private double latitude, longitude;
-
-    public String getType() {
-        return type;
-    }
 
     public String getFirstName() {
         return firstName;
@@ -50,15 +45,14 @@ public class Runner {
 
 
     public Runner (){};
-    public Runner(String type, String fname, String lname, String age, String dob, String emergencyid, double latitude, double longitude) {
-        this.type = "runner";
+    public Runner(String fname, String lname, String age, String dob, String emergencyid, double latitude, double longitude) {
         this.firstName = fname;
         this.lastName = lname;
         this.age = age;
         this.dob = dob;
         this.emergencyid = emergencyid;
-        this.latitude = getLatitude();
-        this.longitude = getLongitude();
+        this.latitude = latitude;
+        this.longitude = longitude;
 
     }
 

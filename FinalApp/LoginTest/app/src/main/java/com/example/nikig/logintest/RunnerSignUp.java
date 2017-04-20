@@ -63,7 +63,6 @@ public class RunnerSignUp extends AppCompatActivity {
             public void onClick(View v) {
 
                 Runner runner = new Runner(
-                        "runner",
                         first.getText().toString(),
                         last.getText().toString(),
                         age.getText().toString(),
