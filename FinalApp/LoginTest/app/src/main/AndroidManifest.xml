@@ -50,7 +50,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.nikig.logintest.Home" />
         </activity>
-        <activity android:name=".rSetting"></activity>
+        <activity android:name=".rSetting" />
+        <activity android:name=".EContactHome"></activity>
     </application>
 
 </manifest>

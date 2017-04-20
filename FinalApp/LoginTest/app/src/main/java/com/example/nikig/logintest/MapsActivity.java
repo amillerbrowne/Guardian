@@ -138,8 +138,9 @@ public class MapsActivity extends FragmentActivity
 
         connectionStatus = (ImageView) findViewById(R.id.connectionStatusBar);
 
+        // TODO: REINSERT THIS LINE
         // execute the bluetooth connection
-        new ConnectBT().execute();
+        // new ConnectBT().execute();
         // if success, set connection bar to green
         bluetoothConnectSuccess(connectionStatus);
 
@@ -307,8 +308,9 @@ public class MapsActivity extends FragmentActivity
         DatabaseReference reference = databaseReference.child("runner").child(firebaseUser.getUid());
         Log.d(TAG, firebaseUser.getUid());
 
-        databaseReference.child(firebaseUser.getUid()).child("latitude").setValue(lastLocation.getLatitude());
-        databaseReference.child(firebaseUser.getUid()).child("longitude").setValue(lastLocation.getLongitude());
+        reference.child("latitude").setValue(lastLocation.getLatitude());
+        reference.child("longitude").setValue(lastLocation.getLongitude());
+
     }
 
     private void updateCameraLocation(Location location) {

@@ -2,6 +2,7 @@ package com.example.nikig.logintest;
 
 import android.app.DialogFragment;
 import android.content.Intent;
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,13 +35,15 @@ public class Home extends AppCompatActivity implements CreateEContactDialog.cont
     private Button buttonLogout;
     private Button buttonStore;
 
+    private boolean isContact;
+
     private TextView msg_welcome;
     private Button viewContactInfoButton;
     private Button buttonrSetting;
     private TextView UserID;
     //create a runner instance
     private Runner mRunner;
-
+    private Emergency possibleContact;
 
     String address;
 
@@ -68,17 +71,24 @@ public class Home extends AppCompatActivity implements CreateEContactDialog.cont
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home);
 
+        isContact = false;
+
         //session check
         Auth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
         FirebaseUser user = Auth.getCurrentUser();
 
         if (user == null) {
-            finish();
             startActivity(new Intent(this, MainActivity.class));
+            finish();
         }
 
+        // check if user is an emergency contact
         String userId = Auth.getCurrentUser().getUid();
+        checkIfContact(userId);
+
+
+
         buttonLogout = (Button) findViewById(R.id.log_out);
         viewContactInfoButton = (Button) findViewById(R.id.userIdDisplay);
         msg_welcome = (TextView) findViewById(R.id.welcome);
@@ -106,7 +116,7 @@ public class Home extends AppCompatActivity implements CreateEContactDialog.cont
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Home.this, EmergencyCard.class);
-                intent.putExtra("emergencyid", mRunner.getEmergencyid() );
+                intent.putExtra("emergencyid", mRunner.getEmergencyid());
                 startActivity(intent);
             }
         });
@@ -148,6 +158,54 @@ public class Home extends AppCompatActivity implements CreateEContactDialog.cont
         });
 
     }
+
+    private void checkIfContact(final String id) {
+/*
+        DatabaseReference reference = mDatabase.child("emergency").child(id);
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d(TAG, "Entered onDataChange");
+                possibleContact = dataSnapshot.getValue(Emergency.class);
+
+                if(possibleContact != null) {
+                    startActivity(new Intent(Home.this, EContactHome.class));
+                    finish();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) { }
+        });
+    }
+*/
+        Log.d("Entering:",  "checkIfContact()");
+        DatabaseReference ref = mDatabase.child("emergency");
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d("Entering:", "onDataChange()");
+                if (dataSnapshot.hasChild(id)) {
+                    Log.d("Entered:", "dataSnapshot.hasChild(id)");
+                    // go to contact homepage instead
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            startActivity(new Intent(getApplicationContext(), EContactHome.class));
+                            finish();
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("Canceled:", "checkIfContact() Canceled");
+            }
+        });
+    }
+
+    /** TODO: ADD A CONNECTION STATUS BAR TO SHOW WHICH BLUETOOTH DEVICE IS SELECTED FROM THE LIST */
 
     private void pairedDevicesList()
     {
@@ -203,6 +261,10 @@ public class Home extends AppCompatActivity implements CreateEContactDialog.cont
     }
 
     private void getUserInfo(final String UID) {
+        if(isContact) {
+            return;
+        }
+
         //referencing/ checking if that uid has a child
         DatabaseReference myRef = mDatabase.child("runner").child(UID);
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -211,9 +273,9 @@ public class Home extends AppCompatActivity implements CreateEContactDialog.cont
 //                Log.d(TAG,dataSnapshot.getChildren(""));
                 mRunner= dataSnapshot.getValue(Runner.class);
 
-                Log.d(TAG,"Runner= "+ mRunner.getEmergencyid());
+//                Log.d(TAG,"Runner= "+ mRunner.getEmergencyid());
 //                Log.d(TAG,"Runner= "+ mRunner.getAge());
-                Log.d(TAG,"Runner= "+ mRunner.getFirstName());
+//                Log.d(TAG,"Runner= "+ mRunner.getFirstName());
             }
 
             @Override

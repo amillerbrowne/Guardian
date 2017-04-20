@@ -62,7 +62,15 @@ public class RunnerSignUp extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Runner runner = new Runner(first.getText().toString(), last.getText().toString(), age.getText().toString(), dob.getText().toString(), emergency_id.getText().toString(), 0, 0);
+                Runner runner = new Runner(
+                        "runner",
+                        first.getText().toString(),
+                        last.getText().toString(),
+                        age.getText().toString(),
+                        dob.getText().toString(),
+                        emergency_id.getText().toString(),
+                        0,
+                        0);
 
 
 
