@@ -1,5 +1,6 @@
 package com.example.nikig.logintest;
 
+import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -41,7 +42,7 @@ public class Home extends AppCompatActivity implements CreateEContactDialog.cont
 
     private TextView msg_welcome;
     private Button viewContactInfoButton;
-    private Button buttonrSetting;
+    private Button updateContactInfo;
     private TextView UserID;
     //create a runner instance
     private Runner mRunner;
@@ -78,7 +79,7 @@ public class Home extends AppCompatActivity implements CreateEContactDialog.cont
         //session check
         Auth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        FirebaseUser user = Auth.getCurrentUser();
+        final FirebaseUser user = Auth.getCurrentUser();
 
         if (user == null) {
             startActivity(new Intent(this, MainActivity.class));
@@ -90,16 +91,16 @@ public class Home extends AppCompatActivity implements CreateEContactDialog.cont
 //        checkIfContact(userId);
 
 
-
         buttonLogout = (Button) findViewById(R.id.log_out);
         viewContactInfoButton = (Button) findViewById(R.id.userIdDisplay);
         msg_welcome = (TextView) findViewById(R.id.welcome);
-        msg_welcome.setText("Welcome "+ user.getDisplayName());
+        msg_welcome.setText("Welcome " + user.getDisplayName());
+        updateContactInfo = (Button) findViewById(R.id.addContactButton);
 
         //created user and get current UID for their info
-        String UID=  user.getUid();
+        String UID = user.getUid();
         //print to make sure accuracy
-        Log.d(TAG,UID);
+        Log.d(TAG, UID);
         //pass it into function to get user info with unique ID
         getUserInfo(UID);
 
@@ -141,8 +142,8 @@ public class Home extends AppCompatActivity implements CreateEContactDialog.cont
 
 
         //Calling widgets
-        btnPaired = (Button)findViewById(R.id.findDevicesButton);
-        devicelist = (ListView)findViewById(R.id.listView);
+        btnPaired = (Button) findViewById(R.id.findDevicesButton);
+        devicelist = (ListView) findViewById(R.id.listView);
 
         // TODO: Pass array to maps function
         contactNames = new ArrayList<>();
@@ -152,30 +153,39 @@ public class Home extends AppCompatActivity implements CreateEContactDialog.cont
         // if the device has bluetooth
         myBluetooth = BluetoothAdapter.getDefaultAdapter();
 
-        if(myBluetooth == null)
-        {
+        if (myBluetooth == null) {
             //Show a message that the device has no bluetooth adapter
             Toast.makeText(getApplicationContext(), "Bluetooth Device Not Available", Toast.LENGTH_LONG).show();
 
             //finish apk
             finish();
-        }
-        else if(!myBluetooth.isEnabled())
-        {
+        } else if (!myBluetooth.isEnabled()) {
             //Ask to the user turn the bluetooth on
             Intent turnBTon = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(turnBTon,1);
+            startActivityForResult(turnBTon, 1);
         }
 
         btnPaired.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 pairedDevicesList();
             }
         });
 
+
+        updateContactInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Home.this, UpdateContactEmergency.class);
+                intent.putExtra("emergencyid", mRunner.getEmergencyid());
+                intent.putExtra("runnerid", user.getUid());
+                startActivity(intent);
+
+            }
+        });
     }
+
+
 
 //    private void checkIfContact(final String id) {
 //        Log.d("Entering:",  "checkIfContact()");
