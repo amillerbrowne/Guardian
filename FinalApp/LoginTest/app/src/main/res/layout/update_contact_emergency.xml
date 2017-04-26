@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.nikig.logintest.UpdateContactEmergency">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:id="@+id/myID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Current ID"
+            android:textSize="25dp"/>
+
+        <TextView
+            android:id="@+id/textView14"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="My ID"
+            android:layout_marginBottom="30dp"
+            />
+
+        <TextView
+            android:id="@+id/currentID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Current Emergency ID"
+            android:textSize="25dp"/>
+
+        <TextView
+            android:id="@+id/textView15"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="My Current Emergency ID"
+            android:layout_marginBottom="30dp"/>
+
+        <EditText
+            android:id="@+id/newID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10" />
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="New Emergency ID"
+            android:layout_marginBottom="40dp"/>
+
+        <Button
+            android:id="@+id/backBttn"
+            style="@style/textView_style"
+            android:layout_width="174dp"
+            android:layout_height="wrap_content"
+            android:text="Update" />
+    </LinearLayout>
+</RelativeLayout>

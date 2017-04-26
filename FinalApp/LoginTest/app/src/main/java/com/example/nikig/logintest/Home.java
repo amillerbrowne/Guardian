@@ -1,9 +1,14 @@
 package com.example.nikig.logintest;
 
+import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.provider.ContactsContract;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -21,15 +26,27 @@ import java.util.Set;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
 public class Home extends AppCompatActivity implements CreateEContactDialog.contactDialogListener {
 
     private Button buttonLogout;
     private Button buttonStore;
+
+    private boolean isContact;
+
     private TextView msg_welcome;
+    private Button viewContactInfoButton;
+    private Button updateContactInfo;
+    private TextView UserID;
+    //create a runner instance
+    private Runner mRunner;
+    private Emergency possibleContact;
 
     String address;
 
@@ -49,41 +66,84 @@ public class Home extends AppCompatActivity implements CreateEContactDialog.cont
     private FirebaseAuth.AuthStateListener firebase;
     private DatabaseReference mDatabase;
 
+    //added this for troubleshooting
+    private static String TAG = Home.class.getSimpleName();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home);
 
+        isContact = false;
+
         //session check
         Auth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        FirebaseUser user = Auth.getCurrentUser();
+        final FirebaseUser user = Auth.getCurrentUser();
 
         if (user == null) {
-            finish();
             startActivity(new Intent(this, MainActivity.class));
+            finish();
         }
 
-        String userId = Auth.getCurrentUser().getUid();
+//        // check if user is an emergency contact
+//        String userId = Auth.getCurrentUser().getUid();
+//        checkIfContact(userId);
+
+
         buttonLogout = (Button) findViewById(R.id.log_out);
+        viewContactInfoButton = (Button) findViewById(R.id.userIdDisplay);
         msg_welcome = (TextView) findViewById(R.id.welcome);
-        msg_welcome.setText("Welcome "+ user.getDisplayName());
+        msg_welcome.setText("Welcome " + user.getDisplayName());
+        updateContactInfo = (Button) findViewById(R.id.addContactButton);
+
+        //created user and get current UID for their info
+        String UID = user.getUid();
+        //print to make sure accuracy
+        Log.d(TAG, UID);
+        //pass it into function to get user info with unique ID
+        getUserInfo(UID);
+
 
         buttonLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (v == buttonLogout) {
-                    Auth.signOut();
-                    finish();
-                    Intent intent = new Intent(Home.this, MainActivity.class);
-                    startActivity(intent);
-                }
+                AlertDialog.Builder builder = new AlertDialog.Builder(Home.this);
+                builder.setTitle("Confirm Logout");
+                builder.setMessage("Are you sure you want to logout of Guardian?");
+                builder.setPositiveButton("Logout", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Auth.signOut();
+                        finish();
+                        Intent intent = new Intent(Home.this, MainActivity.class);
+                        startActivity(intent);
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
         });
 
+        viewContactInfoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Home.this, EmergencyCard.class);
+                intent.putExtra("emergencyid", mRunner.getEmergencyid());
+                startActivity(intent);
+            }
+        });
+
+
         //Calling widgets
-        btnPaired = (Button)findViewById(R.id.findDevicesButton);
-        devicelist = (ListView)findViewById(R.id.listView);
+        btnPaired = (Button) findViewById(R.id.findDevicesButton);
+        devicelist = (ListView) findViewById(R.id.listView);
 
         // TODO: Pass array to maps function
         contactNames = new ArrayList<>();
@@ -93,30 +153,68 @@ public class Home extends AppCompatActivity implements CreateEContactDialog.cont
         // if the device has bluetooth
         myBluetooth = BluetoothAdapter.getDefaultAdapter();
 
-        if(myBluetooth == null)
-        {
+        if (myBluetooth == null) {
             //Show a message that the device has no bluetooth adapter
             Toast.makeText(getApplicationContext(), "Bluetooth Device Not Available", Toast.LENGTH_LONG).show();
 
             //finish apk
             finish();
-        }
-        else if(!myBluetooth.isEnabled())
-        {
+        } else if (!myBluetooth.isEnabled()) {
             //Ask to the user turn the bluetooth on
             Intent turnBTon = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(turnBTon,1);
+            startActivityForResult(turnBTon, 1);
         }
 
         btnPaired.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 pairedDevicesList();
             }
         });
 
+
+        updateContactInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Home.this, UpdateContactEmergency.class);
+                intent.putExtra("emergencyid", mRunner.getEmergencyid());
+                intent.putExtra("runnerid", user.getUid());
+                startActivity(intent);
+
+            }
+        });
     }
+
+
+
+//    private void checkIfContact(final String id) {
+//        Log.d("Entering:",  "checkIfContact()");
+//        DatabaseReference ref = mDatabase.child("emergency");
+//        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                Log.d("Entering:", "onDataChange()");
+//                if (dataSnapshot.hasChild(id)) {
+//                    Log.d("Entered:", "dataSnapshot.hasChild(id)");
+//                    // go to contact homepage instead
+//                    runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            startActivity(new Intent(getApplicationContext(), EContactHome.class));
+//                            finish();
+//                        }
+//                    });
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//                Log.d("Canceled:", "checkIfContact() Canceled");
+//            }
+//        });
+//    }
+
+    /** TODO: ADD A CONNECTION STATUS BAR TO SHOW WHICH BLUETOOTH DEVICE IS SELECTED FROM THE LIST */
 
     private void pairedDevicesList()
     {
@@ -169,6 +267,29 @@ public class Home extends AppCompatActivity implements CreateEContactDialog.cont
     public void addEmergencyContactToList(String name, String number) {
         contactNames.add(name);
         contactNums.add(number);
+    }
+
+    private void getUserInfo(final String UID) {
+        if(isContact) {
+            return;
+        }
+
+        //referencing/ checking if that uid has a child
+        DatabaseReference myRef = mDatabase.child("runner").child(UID);
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+//                Log.d(TAG,dataSnapshot.getChildren(""));
+                mRunner= dataSnapshot.getValue(Runner.class);
+
+//                Log.d(TAG,"Runner= "+ mRunner.getEmergencyid());
+//                Log.d(TAG,"Runner= "+ mRunner.getAge());
+//                Log.d(TAG,"Runner= "+ mRunner.getFirstName());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) { }
+        });
     }
 
     public void startRun(View view) {

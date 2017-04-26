@@ -49,7 +49,13 @@ public class EmergencySignUp extends AppCompatActivity {
          @Override
          public void onClick(View v) {
              final FirebaseUser user = Auth.getCurrentUser();
-             Emergency emergency = new Emergency(eName.getText().toString(), eLast.getText().toString(), phone.getText().toString(), relation.getText().toString());
+             Emergency emergency = new Emergency(
+                     "contact",
+                     eName.getText().toString(),
+                     eLast.getText().toString(),
+                     phone.getText().toString(),
+                     relation.getText().toString(),
+                     "");
 
 
 
@@ -65,7 +71,7 @@ public class EmergencySignUp extends AppCompatActivity {
             toast.makeText(getApplicationContext(), "Posting Data...", Toast.LENGTH_SHORT).show();
 ////                wel.setText("Welcome "+ userInfo.getN());
 //
-            startActivity(new Intent(EmergencySignUp.this, MainActivity.class));
+            startActivity(new Intent(EmergencySignUp.this, EContactHome.class));
              finish();
 
          }

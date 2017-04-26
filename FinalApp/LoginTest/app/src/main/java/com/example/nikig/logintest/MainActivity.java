@@ -1,10 +1,12 @@
 package com.example.nikig.logintest;
 
 import android.content.Intent;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,16 +18,29 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
     private Button buttonLogin;
     private TextView buttonforgot;
     private TextView buttonSignup;
     private EditText editTextEmail;
     private EditText editTextPassword;
+    public static final String TAG = MainActivity.class.getSimpleName();
+
+
 
     private FirebaseAuth Auth;
+    private FirebaseAuth.AuthStateListener authStateListener;
+    private DatabaseReference databaseReference;
+    private FirebaseUser firebaseUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,18 +55,93 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //activity_main = (RelativeLayout) findViewById(R.id.activity_main);
 
-
         buttonLogin.setOnClickListener(this);
         buttonSignup.setOnClickListener(this);
         buttonforgot.setOnClickListener(this);
 
         //init Firebase Auth
         Auth = FirebaseAuth.getInstance();
+        firebaseUser = Auth.getCurrentUser();
+/*
+        if(Auth.getCurrentUser() != null) {
+            Log.d(TAG, firebaseUser.getUid());
+            checkUserTypeAndGoHome(firebaseUser.getUid());
+            finish();
+        }
 
-//        //check already session, if ok -> DashBoard
-  if(Auth.getCurrentUser() != null)
-        startActivity(new Intent(MainActivity.this, Home.class));
- }
+*/
+        //check already session, if ok -> DashBoard
+
+        if (Auth.getCurrentUser() != null) {
+            String userId = firebaseUser.getUid();
+            Log.d(TAG,userId);
+            checkUserTypeAndGoHome(userId);
+
+//            startActivity(new Intent(MainActivity.this, Home.class));
+
+        }
+        // check if user is an emergency contact
+
+
+
+    }
+
+//    private void checkIfContact(final String userId) {
+//            Log.d("Entering:",  "checkIfContact()");
+//            DatabaseReference ref = databaseReference.child("emergency");
+//            ref.addListenerForSingleValueEvent(new ValueEventListener() {
+//                @Override
+//                public void onDataChange(DataSnapshot dataSnapshot) {
+//                    Log.d("Entering:", "onDataChange()");
+//                    if (dataSnapshot.hasChild(userId)) {
+//                        Log.d("Entered:", "dataSnapshot.hasChild(userId)");
+//                        // go to contact homepage instead
+//                        runOnUiThread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                startActivity(new Intent(getApplicationContext(), EContactHome.class));
+//                                finish();
+//                            }
+//                        });
+//                    }
+//                }
+//
+//                @Override
+//                public void onCancelled(DatabaseError databaseError) {
+//                    Log.d("Canceled:", "checkIfContact() Canceled");
+//                }
+//            });
+//        }
+
+
+    private void checkUserTypeAndGoHome(final String userId) {
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference runnerRef = databaseReference.child("runner");
+        runnerRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.hasChild(userId)) {
+                    // is runner
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Log.d(TAG,"is a runner");
+                            Log.d(TAG,userId);
+                            startActivity(new Intent(getApplicationContext(), Home.class));
+                            finish();
+                        }
+                    });
+
+                } else { // is contact
+                    startActivity(new Intent(getApplicationContext(), EContactHome.class));
+                    finish();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) { }
+        });
+    }
 
     @Override
     public void onClick(View v) {
@@ -93,8 +183,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 //start profile activity
-                                startActivity(new Intent(getApplicationContext(), Home.class));
+//                                String userId = firebaseUser.getUid();
+//                                Log.d(TAG,userId);
+//                                checkUserTypeAndGoHome(userId);
+//                                startActivity(new Intent(getApplicationContext(), Home.class));
                                 Toast.makeText(MainActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
+                                checkUserTypeAndGoHome(Auth.getCurrentUser().getUid());
                                 finish();
                             }
                             else{

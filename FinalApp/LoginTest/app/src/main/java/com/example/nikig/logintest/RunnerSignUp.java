@@ -62,13 +62,19 @@ public class RunnerSignUp extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Runner runner = new Runner(first.getText().toString(), last.getText().toString(), age.getText().toString(), dob.getText().toString(), emergency_id.getText().toString());
+                Runner runner = new Runner(
+                        first.getText().toString(),
+                        last.getText().toString(),
+                        age.getText().toString(),
+                        dob.getText().toString(),
+                        emergency_id.getText().toString(),
+                        0,
+                        0);
 
 
 
                 final FirebaseUser user = Auth.getCurrentUser();
                 runnerDB.child(user.getUid()).setValue(runner);
-
 
                 // Now update the information in the User's Auth profile as well
                 UserProfileChangeRequest update = new UserProfileChangeRequest.Builder()

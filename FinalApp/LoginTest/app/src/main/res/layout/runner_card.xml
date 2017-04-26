@@ -8,7 +8,7 @@
     android:paddingLeft="44dp"
     android:paddingRight="44dp"
     android:paddingTop="50dp"
-    tools:context="com.example.nikig.logintest.EmergencyCard">
+    tools:context="com.example.nikig.logintest.RunnerCard">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,39 +16,40 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/name_info"
+            android:id="@+id/runnerName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
+            android:text="TextView"
             android:layout_marginBottom="10dp"
             android:hint="First Name"
             android:textSize="25dp"/>
 
         <TextView
-            android:id="@+id/last_info"
+            android:id="@+id/runnerLast"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="TextView"
             android:layout_marginBottom="10dp"
-            android:text="Last Name"
-            android:textSize="25dp" />
-
-        <TextView
-            android:id="@+id/phone_info"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="phone"
-            android:layout_marginBottom="10dp"
-            android:hint="Phone"
+            android:hint="Last Name"
             android:textSize="25dp"/>
 
         <TextView
-            android:id="@+id/relationship"
+            android:id="@+id/rLongitude"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="TextView"
             android:layout_marginBottom="10dp"
-            android:text="Relationship"
-            android:textSize="25dp" />
+            android:hint="Longitude"
+            android:textSize="25dp"/>
 
+        <TextView
+            android:id="@+id/rLatitude"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:layout_marginBottom="10dp"
+            android:hint="Latitude"
+            android:textSize="25dp"/>
     </LinearLayout>
 
 </RelativeLayout>
