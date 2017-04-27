@@ -11,6 +11,26 @@
   	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   	<!-- Latest compiled JavaScript -->
   	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+     <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
+     <script src="https://www.gstatic.com/firebasejs/3.7.8/firebase.js"></script>
+     <script src="/registerapp.js"></script>
+
+     <script>
+      // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyBVVVyzApUOkFFp2JBQl1lUvOP5YnVPvd8",
+      authDomain: "guardian-92550.firebaseapp.com",
+      databaseURL: "https://guardian-92550.firebaseio.com/emergency/",
+      projectId: "guardian-92550",
+      storageBucket: "guardian-92550.appspot.com",
+    };
+
+    firebase.initializeApp(config);
+    
+
+
+  </script>
+
     <style type="text/css">
 
         .well 
@@ -107,19 +127,19 @@
         <form class="form-signin" action='/login' method="post">
           <h2 class="form-signin-heading">Register</h2>
             <br>
-            <input type="text" class="form-control" name="firstName" id='firstName' placeholder="First Name" required="" autofocus="" /></input>
-            <br>
-            <input type="text" class="form-control" name="lastName" id='lastName' placeholder="Last Name" required="" autofocus="" /></input>
-            <br>
             <input type="text" class="form-control" name="email" id='email' placeholder="Email" required="" autofocus="" /></input>
             <br>
             <input type="password" class="form-control" name="password" id='password' placeholder="Password" required=""/></input>
             <br>
-            <input type="password" class="form-control" name="rePassword" id='rePassword' placeholder="Confirm Password" required=""/></input>
+            <input type="text" class="form-control" name="firstName" id='firstName' placeholder="First Name" required="" autofocus="" /></input>
             <br>
-            <button class="btn btn-lg btn-primary btn-block" type="submit" name='submit'>Register</button>
+            <input type="text" class="form-control" name="lastName" id='lastName' placeholder="Last Name" required="" autofocus="" /></input>
             <br>
-            <div class="row" align="center">Already Registered? <a href="/login.html" class="">Log In</a>
+            <input type="text" class="form-control" id='runnerID' placeholder=" Runner ID" required=""/></input>
+            <br>
+            <button class="btn btn-lg btn-primary btn-block" id='btnLogIn2' type="submit" name='submit'>Register</button>
+            <br>
+            <div class="row" align="center">Already Registered? <a href="/login.html">Log In</a>
           </div>
           </form>
         </div>
