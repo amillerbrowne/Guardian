@@ -82,6 +82,7 @@ public class EmergencyCard extends AppCompatActivity {
             public void onCancelled(DatabaseError databaseError) {
 
 
+
             }
         });
     }

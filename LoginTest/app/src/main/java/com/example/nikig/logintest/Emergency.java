@@ -9,6 +9,7 @@ public class Emergency {
     private String elastName;
     private String phone;
     private String relation;
+    private String runnerid;
 
     public String getEfirstName() {
         return efirstName;
@@ -22,17 +23,20 @@ public class Emergency {
         return phone;
     }
 
+    public String getRunnerID(){return runnerid;}
+
     public String getRelation() {
         return relation;
     }
 
     public Emergency() {};
 
-    public Emergency(String efirstName, String elastName, String phone, String relation) {
+    public Emergency(String efirstName, String elastName, String phone, String relation, String runnerid) {
         this.efirstName = efirstName;
         this.elastName = elastName;
         this.phone = phone;
         this.relation = relation;
+        this.runnerid= runnerid;
     }
 
 }
