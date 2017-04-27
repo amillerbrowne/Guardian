@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
   	<link rel="shortcut icon" href="img/icon.png">
   	<title>Track Runner</title>
     <meta charset="utf-8"> 
@@ -11,8 +11,14 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<!-- Latest compiled JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<style type="text/css">
-		iframe 
+		<!-- Firebase -->
+	<script src="https://www.gstatic.com/firebasejs/3.7.8/firebase.js"></script>
+	 <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
+	<script src="/maps.js"></script>
+
+	<style>
+		
+		#iframe 
 		{ 
 			max-width:100%; 
 			padding-top:10px; 
@@ -20,7 +26,7 @@
 			height: 600px;
 			width: 1500px;
 		}
-		body
+		.body
 		{
 			background-color: #F8F0DD;
 		}
@@ -30,14 +36,15 @@
           text-align: center;
           border: 2px solid #D19C21;
         }
-        h1
+        .h1
 		{
 			font-family: "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
 			font-weight: bold;
 			font-size: 
 		}
-	</style>
-  </head>
+
+</style>
+</head>
 
   <body>
 
@@ -46,15 +53,20 @@
 	  <li role="presentation"><a href="about.html">About Guardian</a></li>
 	  <li role="presentation"><a href="maps.html">Track Runner</a></li>
 	  <li role="presentation"><a href="team.html">The Team</a></li>
-	  <li role="presentation" style="float: right; font-weight: bold; border: 3px solid #9E7619; background-color:#F3E6C8; font-size: 20px;"><a href="login.html">Logout</a></li>
+	  <li role="presentation" style="float: right; font-weight: bold; border: 3px solid #9E7619; background-color:#F3E6C8; font-size: 20px;" onclick="logUserOut();" ><a>Logout</a></li>
 	</ul>
 	<div class="jumbotron ">
-  		<h1>Track Runner</h1>
+
+		<h4 type="text" class="form-control" id='Ename' ></h4>
+		<h4 type="text" class="form-control" id='longitude'></h4>
+		<h4 type="text" class="form-control" id='latitude'></h4>
+
+
+  		<h3>Track Runner</h3>
   		<p>Review the map below to locate your runner.</p>
     </div>
 
-	<iframe frameborder="0" style="border:0"
-src="https://www.google.com/maps/embed/v1/directions?origin=place_id:ChIJFzjlY_B544kRyL6j4ABuNCs&destination=place_id:ChIJVbTqU7d244kR7GVVJqg3NSo&key=AIzaSyBLtA_7oPxErUHnlSduAQ-yF1cxdieLee4" allowfullscreen></iframe>
-
+	<iframe frameborder="0" style="border:0"></iframe>
+	<script src"maps.js"></script>
 	</body>
 </html>

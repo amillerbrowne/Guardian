@@ -12,8 +12,13 @@
   	<!-- Latest compiled JavaScript -->
   	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/3.7.8/firebase.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/3.8.0/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/3.8.0/firebase-database.js"></script>
+
+
+    <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
+    <script src= "./loginapp.js"></script>
+    <!-- <link rel='stylesheet' type='text/css' href='/resources/tutorial/css/example.css'> -->
+
   <script>
       // Initialize Firebase
     var config = {
@@ -23,27 +28,10 @@
       projectId: "guardian-92550",
       storageBucket: "guardian-92550.appspot.com",
     };
+
     firebase.initializeApp(config);
-    var database = firebase.database();
-    var databaseRef = new Firebase('https://guardian-92550.firebaseio.com');
-    var userField = document.getElementById('email');
+    
 
-  // Save data to firebase
-  function savedata(){
-    var message = userField.value;
-
-    databaseRef.push({fieldName:'email', text:message});
-    userField.value = '';
-  }
-  databaseRef.limitToLast(10).on('child_added', function (snapshot) {
-    var data = snapshot.val();
-    var message = data.text;
-
-    if (message != undefined)
-    {
-      messageResults.value += '\n' + message;
-    }
-});
 
   </script>
     <style type="text/css">
@@ -140,22 +128,24 @@
     <div class="row">
         <div class="col-sm-6 col-md-4 col-md-offset-4">
         <div class="wrapper">
-        <form class="form-signin" action='/login' method="post">
+        <div class="form-signin" action='/login' method="post">
           <h2 class="form-signin-heading">Sign In</h2>
             <br>
-            <input type="text" class="form-control" name="email" id='email' placeholder="Email" required="" autofocus="" /></input>
+            <input type="email" class="form-control" name="email" id='email' placeholder="Email" required="" autofocus="" /></input>
             <br>
             <input type="password" class="form-control" name="password" id='password' placeholder="Password" required=""/></input>
             <br>
-            <button class="btn btn-lg btn-primary btn-block" type="submit" name='submit'><a href="maps.html" style="color: #D19C21;">Sign In</a></button>
+            <button class="btn btn-lg btn-primary btn-block" id="btnLogIn" onclick="OnLoginClicked();" >Sign In</button>
+            <!--  <button class="btn btn-lg btn-primary btn-block" id="btnLogIn" type="submit" name='submit'><a href="maps.html" style="color: #D19C21;">Sign In</a></button> -->
             <br>
-            <div class="row" align="center">Not Registered? <a href="/register.html" class="">Register here</a>
+            <!-- <div class="row" align="center">Not Registered? <a href="/register.html" class="">Register here</a>
+          </div> -->
           </div>
-          </form>
         </div>
 
         </div>
         </div>
+        
 
 
   </body>
