@@ -54,7 +54,15 @@
         <activity android:name=".EContactHome" />
         <activity android:name=".SetContactRunner" />
         <activity android:name=".RunnerCard" />
-        <activity android:name=".UpdateContactEmergency"></activity>
+        <activity android:name=".UpdateContactEmergency" />
+        <activity
+            android:name=".ContactMapsActivity"
+            android:label="@string/title_activity_contact_maps_activitiy">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.nikig.logintest.EContactHome" />
+        </activity>
+        <activity android:name=".GrabPhoneNo"></activity>
     </application>
 
 </manifest>

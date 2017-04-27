@@ -7,6 +7,7 @@ android {
         applicationId "com.example.nikig.logintest"
         minSdkVersion 21
         targetSdkVersion 25
+        multiDexEnabled  true
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -37,10 +38,12 @@ dependencies {
     compile 'com.google.firebase:firebase-invites:10.2.1'
     compile 'com.google.android.gms:play-services-location:10.2.1'
     compile 'com.google.android.gms:play-services-maps:10.2.1'
+    compile 'com.google.android.gms:play-services:10.2.1'
     testCompile 'junit:junit:4.12'
 }
 
 apply plugin: 'com.google.gms.google-services'
+
 
 
 
