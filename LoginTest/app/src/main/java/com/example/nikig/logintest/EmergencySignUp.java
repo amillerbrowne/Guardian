@@ -21,6 +21,7 @@ public class EmergencySignUp extends AppCompatActivity {
     private EditText eLast;
     private EditText phone;
     private EditText relation;
+    private EditText runnerid;
     private Button Submit;
     private Toast toast= null;
 
@@ -41,6 +42,7 @@ public class EmergencySignUp extends AppCompatActivity {
          eLast = (EditText) findViewById(R.id.elast);
          phone = (EditText) findViewById(R.id.primary);
        relation = (EditText) findViewById(R.id.relation);
+        runnerid = (EditText) findViewById(R.id.runnerid);
          Submit = (Button) findViewById(R.id.emergencysubmit);
 
 
@@ -49,7 +51,7 @@ public class EmergencySignUp extends AppCompatActivity {
          @Override
          public void onClick(View v) {
              final FirebaseUser user = Auth.getCurrentUser();
-             Emergency emergency = new Emergency(eName.getText().toString(), eLast.getText().toString(), phone.getText().toString(), relation.getText().toString());
+             Emergency emergency = new Emergency(eName.getText().toString(), eLast.getText().toString(), phone.getText().toString(), relation.getText().toString(), runnerid.getText().toString());
 
 
 

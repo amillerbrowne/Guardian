@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-
+    <link rel="shortcut icon" href="img/icon.png">
   	<title>Login to Guardian</title>
     <meta charset="utf-8">
     
@@ -11,6 +11,41 @@
   	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   	<!-- Latest compiled JavaScript -->
   	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.7.8/firebase.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/3.8.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/3.8.0/firebase-database.js"></script>
+  <script>
+      // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyBVVVyzApUOkFFp2JBQl1lUvOP5YnVPvd8",
+      authDomain: "guardian-92550.firebaseapp.com",
+      databaseURL: "https://guardian-92550.firebaseio.com",
+      projectId: "guardian-92550",
+      storageBucket: "guardian-92550.appspot.com",
+    };
+    firebase.initializeApp(config);
+    var database = firebase.database();
+    var databaseRef = new Firebase('https://guardian-92550.firebaseio.com');
+    var userField = document.getElementById('email');
+
+  // Save data to firebase
+  function savedata(){
+    var message = userField.value;
+
+    databaseRef.push({fieldName:'email', text:message});
+    userField.value = '';
+  }
+  databaseRef.limitToLast(10).on('child_added', function (snapshot) {
+    var data = snapshot.val();
+    var message = data.text;
+
+    if (message != undefined)
+    {
+      messageResults.value += '\n' + message;
+    }
+});
+
+  </script>
     <style type="text/css">
 
         .well 
@@ -65,8 +100,6 @@
           background-color:#F3E6C8;
           text-align:center;
           border: 2px solid #D19C21;
-          padding-top: 25px;
-          padding-bottom: 25px;
         }
         body
         {
@@ -86,6 +119,7 @@
         }
         
     </style>
+
   </head>
  
   <body>
@@ -93,13 +127,13 @@
   <ul class="nav nav-pills">
     <li role="presentation"><a href="index.html">Home</a></li>
     <li role="presentation"><a href="about.html">About Guardian</a></li>
-    <li role="presentation"><a href="login.html">Login</a></li>
     <li role="presentation"><a href="maps.html">Track Runner</a></li>
     <li role="presentation"><a href="team.html">The Team</a></li>
+    <li role="presentation" style="float: right; font-weight: bold; border: 3px solid #9E7619; background-color:#F3E6C8; font-size: 20px;"><a href="login.html">Login</a></li>
   </ul>
   	<div class="jumbotron ">
   		<h1>Welcome to Guardian</h1>
-  		<p>Begin here</p>
+  		<p>Sign into your profile below</p>
     </div>
 
   <div class="container">
@@ -107,21 +141,15 @@
         <div class="col-sm-6 col-md-4 col-md-offset-4">
         <div class="wrapper">
         <form class="form-signin" action='/login' method="post">
-          <h2 class="form-signin-heading">Register</h2>
-            <br>
-            <input type="text" class="form-control" name="firstName" id='firstName' placeholder="First Name" required="" autofocus="" /></input>
-            <br>
-            <input type="text" class="form-control" name="lastName" id='lastName' placeholder="Last Name" required="" autofocus="" /></input>
+          <h2 class="form-signin-heading">Sign In</h2>
             <br>
             <input type="text" class="form-control" name="email" id='email' placeholder="Email" required="" autofocus="" /></input>
             <br>
             <input type="password" class="form-control" name="password" id='password' placeholder="Password" required=""/></input>
             <br>
-            <input type="password" class="form-control" name="rePassword" id='rePassword' placeholder="Confirm Password" required=""/></input>
+            <button class="btn btn-lg btn-primary btn-block" type="submit" name='submit'><a href="maps.html" style="color: #D19C21;">Sign In</a></button>
             <br>
-            <button class="btn btn-lg btn-primary btn-block" type="submit" name='submit'>Sign In</button>
-            <br>
-            <div class="row" align="center">Alyread Registered? <a href="login.html" class="">Log In</a>
+            <div class="row" align="center">Not Registered? <a href="/register.html" class="">Register here</a>
           </div>
           </form>
         </div>

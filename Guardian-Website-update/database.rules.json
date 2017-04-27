@@ -1,0 +1,20 @@
+{
+  "rules": {
+    "runner": {
+      "$uid": {
+        ".read": "auth.uid == $uid",
+        ".write": "!data.exists()",
+        "location": {
+          ".read": "true",
+          ".write": "!data.exists()"
+        }
+      }
+    },
+    "emergency": {
+      "$uid": {
+        ".read": "true",
+        ".write": "!data.exists() "
+      }
+    }
+  }
+}

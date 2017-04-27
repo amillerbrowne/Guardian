@@ -93,13 +93,11 @@
   <ul class="nav nav-pills">
     <li role="presentation"><a href="index.html">Home</a></li>
     <li role="presentation"><a href="about.html">About Guardian</a></li>
-    <li role="presentation"><a href="login.html">Login</a></li>
     <li role="presentation"><a href="maps.html">Track Runner</a></li>
     <li role="presentation"><a href="team.html">The Team</a></li>
   </ul>
   	<div class="jumbotron ">
   		<h1>Welcome to Guardian</h1>
-  		<p>Sign into your profile below</p>
     </div>
 
   <div class="container">
@@ -107,15 +105,21 @@
         <div class="col-sm-6 col-md-4 col-md-offset-4">
         <div class="wrapper">
         <form class="form-signin" action='/login' method="post">
-          <h2 class="form-signin-heading">Sign In</h2>
+          <h2 class="form-signin-heading">Register</h2>
+            <br>
+            <input type="text" class="form-control" name="firstName" id='firstName' placeholder="First Name" required="" autofocus="" /></input>
+            <br>
+            <input type="text" class="form-control" name="lastName" id='lastName' placeholder="Last Name" required="" autofocus="" /></input>
             <br>
             <input type="text" class="form-control" name="email" id='email' placeholder="Email" required="" autofocus="" /></input>
             <br>
             <input type="password" class="form-control" name="password" id='password' placeholder="Password" required=""/></input>
             <br>
-            <button class="btn btn-lg btn-primary btn-block" type="submit" name='submit'>Sign In</button>
+            <input type="password" class="form-control" name="rePassword" id='rePassword' placeholder="Confirm Password" required=""/></input>
             <br>
-            <div class="row" align="center">Not Registered? <a href="register.html" class="">Register here</a>
+            <button class="btn btn-lg btn-primary btn-block" type="submit" name='submit'>Register</button>
+            <br>
+            <div class="row" align="center">Already Registered? <a href="/login.html" class="">Log In</a>
           </div>
           </form>
         </div>

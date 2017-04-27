@@ -77,6 +77,7 @@ public class RunnerSignUp extends AppCompatActivity {
 
                 // Now update the information in the User's Auth profile as well
                 UserProfileChangeRequest update = new UserProfileChangeRequest.Builder()
+
                         .setDisplayName(first.getText().toString().trim() + " " + last.getText().toString().trim())
                         .build();
                 user.updateProfile(update);

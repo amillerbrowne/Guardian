@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  	<link rel="shortcut icon" href="img/icon.png">
+  	<title>Guardian</title>
+    <meta charset="utf-8"> 
+    <link rel="stylesheet" href="style.css">
+    <!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<!-- Latest compiled JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<!-- Firebase -->
+	<script src="https://www.gstatic.com/firebasejs/3.7.8/firebase.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/3.8.0/firebase-auth.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/3.8.0/firebase-database.js"></script>
+	<script>
+	  // Initialize Firebase
+	  var config = {
+	    apiKey: "AIzaSyBVVVyzApUOkFFp2JBQl1lUvOP5YnVPvd8",
+	    authDomain: "guardian-92550.firebaseapp.com",
+	    databaseURL: "https://guardian-92550.firebaseio.com",
+	    projectId: "guardian-92550",
+	    storageBucket: "guardian-92550.appspot.com",
+	  };
+	  firebase.initializeApp(config);
+
+	</script>
+  </head>
+  <body>
+	<div id="bg">
+		<h1>Guardian</h1>
+  		<p>Never Run Alone</p>
+  		<img src="img/runner.jpg" alt="">
+
+	</div>
+
+	<ul class="nav nav-pills">	  
+		<li role="presentation" style="float: right; font-weight: bold; border: 3px solid #9E7619; background-color:#F3E6C8; font-size: 20px;"><a href="login.html">Login</a></li>
+	</ul>
+
+  </body>
+
+</html>
