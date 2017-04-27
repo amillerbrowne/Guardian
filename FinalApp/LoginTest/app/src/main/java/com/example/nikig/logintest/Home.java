@@ -36,7 +36,7 @@ import com.google.firebase.database.ValueEventListener;
 public class Home extends AppCompatActivity implements CreateEContactDialog.contactDialogListener {
 
     private Button buttonLogout;
-    private Button buttonStore;
+    private Button startRunButton;
 
     private boolean isContact;
 
@@ -91,6 +91,7 @@ public class Home extends AppCompatActivity implements CreateEContactDialog.cont
 //        checkIfContact(userId);
 
 
+        startRunButton = (Button) findViewById(R.id.startRunButton);
         buttonLogout = (Button) findViewById(R.id.log_out);
         viewContactInfoButton = (Button) findViewById(R.id.userIdDisplay);
         msg_welcome = (TextView) findViewById(R.id.welcome);
@@ -104,7 +105,7 @@ public class Home extends AppCompatActivity implements CreateEContactDialog.cont
         //pass it into function to get user info with unique ID
         getUserInfo(UID);
 
-
+        // logout button handler
         buttonLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -130,6 +131,7 @@ public class Home extends AppCompatActivity implements CreateEContactDialog.cont
                 dialog.show();
             }
         });
+
 
         viewContactInfoButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -181,6 +183,24 @@ public class Home extends AppCompatActivity implements CreateEContactDialog.cont
                 intent.putExtra("runnerid", user.getUid());
                 startActivity(intent);
 
+            }
+        });
+
+        startRunButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Make an intent to start next activity.
+                Intent i = new Intent(Home.this, MapsActivity.class);
+
+                if(address != null) {
+                    //Change the activity.
+                    i.putExtra("address", address); //this will be received at receiving Activity
+                    Log.d(TAG, mRunner.getEmergencyid());
+                    i.putExtra("emergencyid", mRunner.getEmergencyid());
+                    i.putExtra("runnerid", user.getUid());
+                    i.putExtra("phoneNo", "null");
+                    startActivity(i);
+                }
             }
         });
     }
@@ -290,17 +310,6 @@ public class Home extends AppCompatActivity implements CreateEContactDialog.cont
             @Override
             public void onCancelled(DatabaseError databaseError) { }
         });
-    }
-
-    public void startRun(View view) {
-        // Make an intent to start next activity.
-        Intent i = new Intent(Home.this, MapsActivity.class);
-
-        if(address != null) {
-            //Change the activity.
-            i.putExtra(BLUETOOTH_DEVICE_ADDRESS, address); //this will be received at receiving Activity
-            startActivity(i);
-        }
     }
 
     // CreateEContactDialog.contactDialogListener interface implementation

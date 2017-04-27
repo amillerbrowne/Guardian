@@ -22,6 +22,7 @@ public class EmergencyCard extends AppCompatActivity {
     private TextView EmergencyRelation;
     private Toast toast = null;
     private static String TAG = EmergencyCard.class.getSimpleName();
+    String eID, rID;
 
     // [START declare_database_ref]
 
@@ -40,10 +41,10 @@ public class EmergencyCard extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.emergency_card);
-        EmergencyName = (TextView) findViewById(R.id.name_info);
-        EmergencyPhone = (TextView) findViewById(R.id.phone_info);
-        EmergencyLast = (TextView) findViewById(R.id.last_info);
-        EmergencyRelation = (TextView) findViewById(R.id.relationship);
+        EmergencyName = (TextView) findViewById(R.id.contactName);
+        EmergencyPhone = (TextView) findViewById(R.id.ePhoneNo);
+        EmergencyLast = (TextView) findViewById(R.id.contactLast);
+        EmergencyRelation = (TextView) findViewById(R.id.eRelation);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         Intent intent = getIntent();
@@ -64,10 +65,11 @@ public class EmergencyCard extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
 //                Log.d(TAG,dataSnapshot.getChildren(""));
                 mEmergency= dataSnapshot.getValue(Emergency.class);
-
+/*
                 Log.d(TAG,"Runner= "+ mEmergency.getEfirstName());
 //                Log.d(TAG,"Runner= "+ mRunner.getAge());
                 Log.d(TAG,"Runner= "+ mEmergency.getPhone());
+*/
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -80,8 +82,6 @@ public class EmergencyCard extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
-
 
             }
         });

@@ -1,6 +1,8 @@
 package com.example.nikig.logintest;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,99 +19,119 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class EContactHome extends AppCompatActivity implements View.OnClickListener {
+public class EContactHome extends AppCompatActivity {
 
-        private Button buttonLogout;
-        private Button buttonCard;
-        private TextView msg_welcome;
-        private TextView UserID;
-        //create a runner instance
-        private Emergency mContact;
+    private Button buttonLogout, quickViewButton, listRunnersButton;
+    private TextView msg_welcome;
+    private TextView UserID;
+    //create a runner instance
+    private Emergency mContact;
 
+    private Toast toast = null;
 
-        private Toast toast = null;
+    private FirebaseAuth Auth;
+    private FirebaseAuth.AuthStateListener firebase;
+    private DatabaseReference mDatabase;
 
-        private FirebaseAuth Auth;
-        private FirebaseAuth.AuthStateListener firebase;
-        private DatabaseReference mDatabase;
-
-        //added this for troubleshooting
-        private static String TAG = EContactHome.class.getSimpleName();
-
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_econtact_home);
-
-            //session check
-            Auth = FirebaseAuth.getInstance();
-            mDatabase = FirebaseDatabase.getInstance().getReference();
-            FirebaseUser user = Auth.getCurrentUser();
-
-            if (user == null) {
-                finish();
-                startActivity(new Intent(this, MainActivity.class));
-            }
-
-//            String userId = Auth.getCurrentUser().getUid();
-            buttonLogout = (Button) findViewById(R.id.eLogout);
-            buttonCard= (Button) findViewById(R.id.eRunnerInfo);
-            msg_welcome = (TextView) findViewById(R.id.eName);
-
-            UserID = (TextView) findViewById(R.id.eUserID);
-            //msg_welcome.setText("Welcome "+Runner.getCurrentuser().getFirstName());
-            msg_welcome.setText("Welcome "+ user.getDisplayName());
-
-            //created user and get current UID for their info
-            String UID=  user.getUid();
-            //print to make sure accuracy
-            Log.d(TAG,UID);
-            //pass it into function to get user info with unique ID
-            getUserInfo(UID);
-            UserID.setText(UID);
-
-
-            buttonLogout.setOnClickListener(this);
-            buttonCard.setOnClickListener(this);
-        }
-
-
-        private void getUserInfo(final String UID) {
-            //referencing/ checking if that uid has a child
-            DatabaseReference myRef = mDatabase.child("emergency").child(UID);
-            myRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-//                Log.d(TAG,dataSnapshot.getChildren(""));
-                    mContact= dataSnapshot.getValue(Emergency.class);
-
-                    Log.d(TAG,"Contact= "+ mContact.getEfirstName());
-//                Log.d(TAG,"Runner= "+ mRunner.getAge());
-                    Log.d(TAG,"Contact= "+ mContact.getElastName());
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
-
-        }
+    //added this for troubleshooting
+    private static String TAG = EContactHome.class.getSimpleName();
 
     @Override
-    public void onClick(View v) {
-        if (v == buttonLogout) {
-            Auth.signOut();
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_econtact_home);
+
+        //session check
+        Auth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        FirebaseUser user = Auth.getCurrentUser();
+
+        if (user == null) {
             finish();
             startActivity(new Intent(this, MainActivity.class));
         }
-        if (v == buttonCard){
-            Intent intent = new Intent(this, RunnerCard.class);
-            intent.putExtra("runnerid", mContact.getRunnerID());
-            startActivity(intent);
-        }
 
+//      String userId = Auth.getCurrentUser().getUid();
+        buttonLogout = (Button) findViewById(R.id.contactLogOutButton);
+        quickViewButton = (Button) findViewById(R.id.quickViewRunnerButton);
+        msg_welcome = (TextView) findViewById(R.id.eContactWelcome);
 
+        //UserID = (TextView) findViewById(R.id.eUserID);
+        //msg_welcome.setText("Welcome "+Runner.getCurrentuser().getFirstName());
+        msg_welcome.setText("Welcome "+ user.getDisplayName());
+
+        //created user and get current UID for their info
+        String UID = user.getUid();
+        //print to make sure accuracy
+        Log.d(TAG,UID);
+        //pass it into function to get user info with unique ID
+        getUserInfo(UID);
+
+        //UserID.setText(UID);
+
+        // logout button handler
+        buttonLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(EContactHome.this);
+                builder.setTitle("Confirm Logout");
+                builder.setMessage("Are you sure you want to logout of Guardian?");
+                builder.setPositiveButton("Logout", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Auth.signOut();
+                        finish();
+                        Intent intent = new Intent(EContactHome.this, MainActivity.class);
+                        startActivity(intent);
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
+
+        quickViewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(EContactHome.this, RunnerCard.class);
+                intent.putExtra("runnerid", mContact.getRunnerID());
+                startActivity(intent);
+            }
+        });
+    }
+
+    public void locateRunner(View v) {
+        // TODO: Open Map and pull coordinates to drop a marker
+        Intent intent = new Intent(EContactHome.this, ContactMapsActivity.class);
+        intent.putExtra("runnerid", mContact.getRunnerID());
+        startActivity(intent);
+    }
+
+    private void getUserInfo(final String UID) {
+        //referencing/ checking if that uid has a child
+        DatabaseReference myRef = mDatabase.child("emergency").child(UID);
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+//              Log.d(TAG,dataSnapshot.getChildren(""));
+                mContact= dataSnapshot.getValue(Emergency.class);
+
+                Log.d(TAG,"Contact= "+ mContact.getEfirstName());
+//              Log.d(TAG,"Runner= "+ mRunner.getAge());
+                Log.d(TAG,"Contact= "+ mContact.getElastName());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 }
 
@@ -153,47 +175,6 @@ public class EContactHome extends AppCompatActivity implements View.OnClickListe
 //                    finish();
 //                }
 //            }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

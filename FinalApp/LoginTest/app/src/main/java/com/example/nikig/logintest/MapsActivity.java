@@ -57,6 +57,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 import java.util.Calendar;
@@ -107,20 +108,17 @@ public class MapsActivity extends FragmentActivity
     private String selectedContactPhoneNo, emergencyTriggerKey;
     private float distanceRun;
     public int selectedContactIndex, updateCounter;
+    public int locationUpdateCounter;
+    private String eID, rID, intentPhoneNo;
 
     /** database variables **/
     private Runner runner;
+    private Emergency contact;
     private FirebaseAuth Auth;
     private FirebaseAuth.AuthStateListener authStateListener;
     private DatabaseReference databaseReference;
     private FirebaseUser firebaseUser;
 
-    /** TESTING PURPOSE VARS **/
-    String contacts[] = {"Inna", "Alex"};
-    final String contactNums[] = {"16179357165", "17818660040"};
-    // Phone nums for respective contacts[] entries
-    // also only for testing, will be substituted with
-    // database calls when ready
 
 
     @Override
@@ -130,7 +128,22 @@ public class MapsActivity extends FragmentActivity
 
         // Get the bluetooth device address from the passed intent
         Intent intent = getIntent();
-        deviceAddress = intent.getStringExtra(Home.BLUETOOTH_DEVICE_ADDRESS);
+        deviceAddress = intent.getStringExtra("address");
+        eID = intent.getStringExtra("emergencyid");
+        rID = intent.getStringExtra("runnerid");
+        intentPhoneNo = intent.getStringExtra("phoneNo");
+
+        // if the phone number was received from the home activity it will be "null"
+        // in this case run a shadow activity to grab the number and pass it back
+        if(intentPhoneNo == "null") {
+            Intent i = new Intent(this, GrabPhoneNo.class);
+            i.putExtra("emergencyid", eID);
+            i.putExtra("runnerid", rID);
+            i.putExtra("address", deviceAddress);
+            startActivity(i);
+        }
+        // debug print the received phone number
+        Log.d(TAG, intentPhoneNo);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         mapFrag = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
@@ -138,9 +151,8 @@ public class MapsActivity extends FragmentActivity
 
         connectionStatus = (ImageView) findViewById(R.id.connectionStatusBar);
 
-        // TODO: REINSERT THIS LINE
         // execute the bluetooth connection
-        // new ConnectBT().execute();
+        new ConnectBT().execute();
         // if success, set connection bar to green
         bluetoothConnectSuccess(connectionStatus);
 
@@ -160,8 +172,9 @@ public class MapsActivity extends FragmentActivity
         // default emergencyTriggerKey to false;
         emergencyTriggerKey = "false";
 
-        // initialize updateCounter
-        updateCounter = 8; // start high to send update soon after launch
+        // initialize counters
+        updateCounter = 5; // start high to send update soon after launch
+        locationUpdateCounter = 0; // count how many times we update location
 
         // make sure run times are set to zero
         startTimeMillis = 0;
@@ -170,6 +183,9 @@ public class MapsActivity extends FragmentActivity
         autoTextContact = true;
         settingMapSat = false;
         settingZoomOut = false;
+
+        // set up our emergency contact phone number
+        selectedContactPhoneNo = intentPhoneNo;
     }
 
     protected void onResume() {
@@ -191,6 +207,7 @@ public class MapsActivity extends FragmentActivity
         if (googleApiClient != null) {
             LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient, this);
         }
+
     }
 
     /**
@@ -240,8 +257,8 @@ public class MapsActivity extends FragmentActivity
     @Override
     public void onConnected(Bundle bundle) {
         locationRequest = new LocationRequest();
-        locationRequest.setInterval(3000); // 3 seconds
-        locationRequest.setFastestInterval(1000); // 1 second
+        locationRequest.setInterval(5000); // 5 seconds
+        locationRequest.setFastestInterval(3000); // 3 seconds
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
@@ -271,7 +288,8 @@ public class MapsActivity extends FragmentActivity
 
     @Override
     public void onLocationChanged(Location location) {
-        lastLocation = location;
+
+        lastLocation = location; // update class member with location
         if (currLocationMarker != null) {
             currLocationMarker.remove();
         }
@@ -279,13 +297,21 @@ public class MapsActivity extends FragmentActivity
         // update counter and send data if we reach 7; ~21 seconds per update to device
         updateCounter++;
 
-        // update database every 15 seconds
-        if(updateCounter == 3 || updateCounter == 8) {
+        // update and print our location updates for debugging
+        locationUpdateCounter++;
+        Log.d(TAG, String.format("Update Counter Value: %d", updateCounter));
+        Log.d(TAG, String.format("Location Update Number: %d", locationUpdateCounter));
+        Log.d(TAG, String.format("Lat: %.7f Long: %.7f", location.getLatitude(), location.getLongitude()));
+
+        // update database every ~20 seconds
+        if(updateCounter == 2 || updateCounter == 5) {
+            Log.d(TAG, "Updating Database with Current Location");
             updateLocationInDatabase(lastLocation);
         }
 
-        // update arduino every 30 seconds
-        if(updateCounter == 10){
+        // update arduino every ~21-35 seconds
+        if(updateCounter == 7){
+            Log.d(TAG, "Updating Arduino with Current Location");
             sendFormattedStringByBluetooth(getEContactCallParameters());
             updateCounter = 0;
         }
@@ -297,11 +323,16 @@ public class MapsActivity extends FragmentActivity
         }
     }
 
-    private void updateLocationListing(Location location) {
-        latitudeTV = (TextView) findViewById(R.id.latitude);
-        longitudeTV = (TextView) findViewById(R.id.longitude);
-        latitudeTV.setText(String.valueOf(location.getLatitude()));
-        longitudeTV.setText(String.valueOf(location.getLongitude()));
+    private void updateLocationListing(final Location location) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                latitudeTV = (TextView) findViewById(R.id.latitude);
+                longitudeTV = (TextView) findViewById(R.id.longitude);
+                latitudeTV.setText(String.valueOf(location.getLatitude()));
+                longitudeTV.setText(String.valueOf(location.getLongitude()));
+            }
+        });
     }
 
     private void updateLocationInDatabase(Location location) {
@@ -492,8 +523,14 @@ public class MapsActivity extends FragmentActivity
     }
 
     public void selectEmergencyContact(View view) {
-        // String contacts[] = TODO: Database call for Emergency Contacts then phone numbers
 
+        Intent intent = new Intent(MapsActivity.this, EmergencyCard.class);
+        Log.d(TAG, eID);
+        intent.putExtra("emergencyid", eID);
+        intent.putExtra("runnerid", rID);
+        startActivity(intent);
+
+/*
         // build a dialog to display the list of contacts
         AlertDialog.Builder builder = new AlertDialog.Builder(MapsActivity.this);
 
@@ -529,7 +566,7 @@ public class MapsActivity extends FragmentActivity
 
         AlertDialog dialog = builder.create();
         dialog.show();
-
+*/
     }
 
     public void triggerEmergency(View view) {
