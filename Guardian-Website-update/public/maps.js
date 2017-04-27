@@ -53,9 +53,21 @@ var rRef = new Firebase("https://guardian-92550.firebaseio.com/runner/"+runner+"
   		console.log(rlat);
   		document.getElementById("latitude").innerHTML = ("Runner's Last Latitude: " + rlat);
 	 document.getElementById("longitude").innerHTML = ("Runner's Last longitude: " + rlong);
+	 initMap(rlat, rlong);
 		});
 	 
 	}
+	 function initMap(rlat, rlong) {
+        var uluru = {lat: rlat, lng: rlong};
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 8,
+          center: uluru
+        });
+        var marker = new google.maps.Marker({
+          position: uluru,
+          map: map
+        });
+      }
 
 	function logUserOut(e){
 	console.log("here!");

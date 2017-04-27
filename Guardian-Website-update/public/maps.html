@@ -14,6 +14,8 @@
 		<!-- Firebase -->
 	<script src="https://www.gstatic.com/firebasejs/3.7.8/firebase.js"></script>
 	 <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
+	 <script async defer
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDmNNaUpFsrk2_7ac3o6qusLqZFW5M0b90&callback=initMap"></script>
 	<script src="/maps.js"></script>
 
 	<style>
@@ -42,6 +44,10 @@
 			font-weight: bold;
 			font-size: 
 		}
+		#map {
+  		height: 400px;
+  		width: 100%;
+ 		}
 
 </style>
 </head>
@@ -65,8 +71,9 @@
   		<h3>Track Runner</h3>
   		<p>Review the map below to locate your runner.</p>
     </div>
-
-	<iframe frameborder="0" style="border:0"></iframe>
-	<script src"maps.js"></script>
+	<div id="map"></div>
+ 
+	
+	
 	</body>
 </html>
