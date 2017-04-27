@@ -28,6 +28,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.view.View;
@@ -48,6 +49,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.vision.text.Line;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
@@ -95,6 +97,7 @@ public class MapsActivity extends FragmentActivity
     /** generic views/objects **/
     Button cameraLockButton, startPointButton, endPointButton;
     TextView latitudeTV, longitudeTV, distanceTV, durationTV;
+    LinearLayout mapsView;
 
     /** primitive member variables **/
     public boolean cameraFollow;
@@ -126,6 +129,8 @@ public class MapsActivity extends FragmentActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
+        mapsView = (LinearLayout) findViewById(R.id.mapsBaseView);
+
         // Get the bluetooth device address from the passed intent
         Intent intent = getIntent();
         deviceAddress = intent.getStringExtra("address");
@@ -135,13 +140,11 @@ public class MapsActivity extends FragmentActivity
 
         // if the phone number was received from the home activity it will be "null"
         // in this case run a shadow activity to grab the number and pass it back
-        if(intentPhoneNo == "null") {
-            Intent i = new Intent(this, GrabPhoneNo.class);
-            i.putExtra("emergencyid", eID);
-            i.putExtra("runnerid", rID);
-            i.putExtra("address", deviceAddress);
-            startActivity(i);
+        if(intentPhoneNo.equals("null")) {
+            Snackbar.make(mapsView, "No Contact Selected", Snackbar.LENGTH_INDEFINITE).show();
         }
+
+
         // debug print the received phone number
         Log.d(TAG, intentPhoneNo);
 

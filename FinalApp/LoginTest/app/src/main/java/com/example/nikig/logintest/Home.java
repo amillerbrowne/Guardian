@@ -190,7 +190,9 @@ public class Home extends AppCompatActivity implements CreateEContactDialog.cont
             @Override
             public void onClick(View v) {
                 // Make an intent to start next activity.
-                Intent i = new Intent(Home.this, MapsActivity.class);
+                /** Jump to grabPhoneNo activity first **/
+
+                Intent i = new Intent(Home.this, GrabPhoneNo.class);
 
                 if(address != null) {
                     //Change the activity.
@@ -198,7 +200,6 @@ public class Home extends AppCompatActivity implements CreateEContactDialog.cont
                     Log.d(TAG, mRunner.getEmergencyid());
                     i.putExtra("emergencyid", mRunner.getEmergencyid());
                     i.putExtra("runnerid", user.getUid());
-                    i.putExtra("phoneNo", "null");
                     startActivity(i);
                 }
             }
