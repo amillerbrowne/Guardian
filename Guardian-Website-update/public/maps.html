@@ -19,7 +19,10 @@
 	<script src="/maps.js"></script>
 
 	<style>
-		
+		body
+		{
+		background-color: #F8F0DD;
+		}
 		#iframe 
 		{ 
 			max-width:100%; 
@@ -32,6 +35,7 @@
 		{
 			background-color: #F8F0DD;
 		}
+		
 		.jumbotron
         {
           background-color:#F3E6C8;
@@ -48,6 +52,17 @@
   		height: 400px;
   		width: 100%;
  		}
+ 		.form-control
+ 		{
+ 			background-color:#F3E6C8;
+		text-align: right;
+		width: 350px;
+		float: left;
+		font-family: "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
+		border: 1px solid #9E7619;
+		padding-right: 10px;
+ 		}
+
 
 </style>
 </head>
@@ -63,13 +78,14 @@
 	</ul>
 	<div class="jumbotron ">
 
-		<h4 type="text" class="form-control" id='Ename' ></h4>
-		<h4 type="text" class="form-control" id='longitude'></h4>
-		<h4 type="text" class="form-control" id='latitude'></h4>
-
+		
 
   		<h3>Track Runner</h3>
   		<p>Review the map below to locate your runner.</p>
+  		<h4 type="text" class="form-control" id='Ename' ></h4>
+		<h4 type="text" class="form-control" id='longitude'></h4>
+		<h4 type="text" class="form-control" id='latitude'></h4>
+
     </div>
 	<div id="map"></div>
  
